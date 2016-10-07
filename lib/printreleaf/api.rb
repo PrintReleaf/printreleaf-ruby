@@ -65,12 +65,13 @@ module PrintReleaf
         # If this is a GET or DELETE request, it is likely the resource is not owned by the client.
         # If this is a POST, PUT, or PATCH, the data might be invalid.
 
-        # Handle 400, 401, 403, and 404 errors.
-        # 400 Bad Request  - Invalid or missing request parameters.
-        # 401 Unauthorized - Invalid API key.
-        # 403 Forbidden    - API keys were provided but the requested action is not authorized.
-        # 404 Not Found    - The requested item doesn't exist or the client doesn't own it.
-        if [400, 401, 403, 404].include?(e.http_code)
+        # Handle 400, 401, 403, 404, 429 errors.
+        # 400 Bad Request       - Invalid or missing request parameters.
+        # 401 Unauthorized      - Invalid API key.
+        # 403 Forbidden         - API keys were provided but the requested action is not authorized.
+        # 404 Not Found         - The requested item doesn't exist or the client doesn't own it.
+        # 429 Too Many Requests - Rate limit exceeded.
+        if [400, 401, 403, 404, 429].include?(e.http_code)
           raise Error, JSON.parse(e.http_body)["message"]
         end
 

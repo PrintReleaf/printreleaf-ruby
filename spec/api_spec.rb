@@ -206,6 +206,10 @@ describe PrintReleaf::API, "#request" do
         response = double(:response, code: 404, body: '{"code":404,"message":"Not Found."}')
         allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Not Found."
+
+        response = double(:response, code: 429, body: '{"code":404,"message":"Rate limit exceeded."}')
+        allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Rate limit exceeded."
       end
     end
 
