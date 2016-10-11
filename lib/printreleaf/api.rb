@@ -4,6 +4,14 @@ module PrintReleaf
 
     ENDPOINT = "api.printreleaf.com/v1/"
     PROTOCOL = "https"
+    MAX_RETRY_COUNT = 2
+    NETWORK_EXCEPTIONS = [
+      SocketError,
+      Errno::ECONNREFUSED,
+      Errno::ECONNRESET,
+      Errno::ETIMEDOUT,
+      RestClient::RequestTimeout
+    ]
 
     attr_writer :api_key
     attr_writer :endpoint
@@ -65,41 +73,69 @@ module PrintReleaf
     private
 
     def perform_request(&block)
+      retry_count = 0
       begin
         yield
-
-        # At this point, some exception has been raised either
-        # during the request or parsing the response.
-        #
-        # We determine the type of error, and re-raise
-        # our own error from the message in the response body.
-      rescue RestClient::Exception => e
-        # We likely got a http status code outside the 200-399 range.
-        # If this is a GET or DELETE request, it is likely the resource is not owned by the client.
-        # If this is a POST, PUT, or PATCH, the data might be invalid.
-
-        # Handle 400, 401, 403, 404, 429 errors.
-        # 400 Bad Request       - Invalid or missing request parameters.
-        # 401 Unauthorized      - Invalid API key.
-        # 403 Forbidden         - API keys were provided but the requested action is not authorized.
-        # 404 Not Found         - The requested item doesn't exist or the client doesn't own it.
-        # 429 Too Many Requests - Rate limit exceeded.
-        if [400, 401, 403, 404, 429].include?(e.http_code)
-          raise Error, JSON.parse(e.http_body)["message"]
+      rescue => e
+        if should_retry?(e, retry_count)
+          retry_count += 1
+          retry
+        else
+          handle_error(e, retry_count)
         end
-
-        # Handle any other http error (i.e. 5xx+), or other RestClient exceptions.
-        # Re-raise a generic error.
-        raise Error, "Something went wrong with the request. Please try again."
-      rescue JSON::ParserError => e
-        # We received the data fine, but we're unable to parse it.
-        # Re-raise a generic error.
-        raise Error, "Something went wrong parsing the response. Please try again."
-      rescue StandardError => e
-        # Something else went wrong.
-        # Re-raise a generic error.
-        raise Error, "Something went wrong. Please try again."
       end
+    end
+
+    def handle_error(e, retry_count)
+      case e
+      when RestClient::ExceptionWithResponse
+        if e.response
+          handle_api_error(e, retry_count)
+        else
+          handle_restclient_error(e, retry_count)
+        end
+      when JSON::ParserError
+        handle_json_error(e, retry_count)
+      when *NETWORK_EXCEPTIONS
+        handle_network_error(e, retry_count)
+      else
+        raise
+      end
+    end
+
+    def handle_api_error(e, retry_count = 0)
+      # We likely got a http status code outside the 200-399 range.
+      # If this is a GET or DELETE request, it is likely the resource is not owned by the client.
+      # If this is a POST, PUT, or PATCH, the data might be invalid.
+      message = JSON.parse(e.response.body)["message"]
+      raise Error, message
+    end
+
+    def handle_json_error(e, retry_count = 0)
+      # We received the data fine, but we're unable to parse it.
+      # Re-raise a generic error.
+      message = "Something went wrong parsing the response. Please try again."
+      message += " Request was retried #{retry_count} times." if retry_count > 0
+      message += " (#{e.class.name})"
+      raise Error, message
+    end
+
+    def handle_network_error(e, retry_count = 0)
+      message = "Unexpected error communicating when trying to connect to PrintReleaf."
+      message += " Request was retried #{retry_count} times." if retry_count > 0
+      message += " (#{e.class.name})"
+      raise Error, message
+    end
+
+    def handle_restclient_error(e, retry_count = 0)
+      message = "Something went wrong with the request. Please try again."
+      message += " Request was retried #{retry_count} times." if retry_count > 0
+      message += " (#{e.class.name})"
+      raise Error, message
+    end
+
+    def should_retry?(e, retry_count = 0)
+      NETWORK_EXCEPTIONS.include?(e.class) && retry_count < MAX_RETRY_COUNT
     end
   end
 end

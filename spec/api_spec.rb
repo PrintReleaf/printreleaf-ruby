@@ -220,44 +220,58 @@ describe PrintReleaf::API, "#request" do
     context "when it is a known http status code" do
       it "raises an Error with the appropriate message" do
         response = double(:response, code: 400, body: '{"code":400,"message":"Invalid or missing request parameters."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Invalid or missing request parameters."
 
         response = double(:response, code: 401, body: '{"code":401,"message":"Invalid API key."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Invalid API key."
 
         response = double(:response, code: 403, body: '{"code":403,"message":"API keys were provided but the requested action is not authorized."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "API keys were provided but the requested action is not authorized."
 
         response = double(:response, code: 404, body: '{"code":404,"message":"Not Found."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Not Found."
 
         response = double(:response, code: 429, body: '{"code":404,"message":"Rate limit exceeded."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::Exception.new(response))
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Rate limit exceeded."
       end
     end
 
     context "when it is an unknown http status code" do
       it "raises an Error with a generic message" do
-        allow(RestClient).to receive(:get).
-          and_raise(RestClient::Exception)
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Something went wrong with the request. Please try again."
+        }.to raise_error PrintReleaf::Error, "Something went wrong with the request. Please try again. (RestClient::ExceptionWithResponse)"
+      end
+    end
+
+    context "when a network exception is raised" do
+      it "raises an Error with a network error message" do
+        allow(RestClient).to receive(:get).and_raise(SocketError)
+        expect {
+          client.request(:get, "/path/to/resource/123")
+        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 2 times. (SocketError)"
+      end
+
+      it "raises an Error with a network error message" do
+        allow(RestClient).to receive(:get).and_raise(Errno::ECONNREFUSED)
+        expect {
+          client.request(:get, "/path/to/resource/123")
+        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 2 times. (Errno::ECONNREFUSED)"
       end
     end
 
     context "when an unknown exception is raised" do
-      it "raises an Error with a generic message" do
-        allow(RestClient).to receive(:get).
-          and_raise(StandardError)
+      it "does not rescue it" do
+        allow(RestClient).to receive(:get).and_raise(StandardError)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Something went wrong. Please try again."
+        }.to raise_error StandardError
       end
     end
   end
