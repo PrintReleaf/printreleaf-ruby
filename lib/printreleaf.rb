@@ -12,6 +12,7 @@ require "printreleaf/version"
 require "printreleaf/error"
 require "printreleaf/util"
 require "printreleaf/api"
+require "printreleaf/resource"
 
 module PrintReleaf
 end
