@@ -18,19 +18,22 @@ describe PrintReleaf::Resource, "#uri" do
 end
 
 describe PrintReleaf::Resource, "#changes" do
-  it "returns a hash of the changed properties" do
-    klass = Class.new(PrintReleaf::Resource) do
+  let(:widget_klass) do
+    Class.new(PrintReleaf::Resource) do
       property :size
       property :color
       property :price
     end
-    resource = klass.new(size: "Large", color: "Blue", price: 123.45)
+  end
+
+  it "returns a hash of the changed properties" do
+    resource = widget_klass.new(size: "Large", color: "Blue", price: 123.45)
     resource.price = 678.90
-    expect(resource.changes).to eql({"price" => 678.90})
+    expect(resource.changes).to eq({"price" => 678.90})
     resource.size = "Medium"
-    expect(resource.changes).to eql({"size" => "Medium", "price" => 678.90})
+    expect(resource.changes).to eq({"size" => "Medium", "price" => 678.90})
     resource.price = 123.45
-    expect(resource.changes).to eql({"size" => "Medium"})
+    expect(resource.changes).to eq({"size" => "Medium"})
   end
 end
 

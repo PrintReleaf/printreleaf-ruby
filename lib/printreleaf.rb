@@ -13,7 +13,9 @@ require "printreleaf/error"
 require "printreleaf/util"
 require "printreleaf/api"
 require "printreleaf/resource"
+require "printreleaf/actions"
 
 module PrintReleaf
+  extend API
 end
 

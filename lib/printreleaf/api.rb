@@ -1,12 +1,14 @@
 module PrintReleaf
   module API
+    extend self
+
     ENDPOINT = "api.printreleaf.com/v1/"
 
     attr_writer :api_key
     attr_accessor :logger
 
     def api_key
-      if @api_key.nil? || @api_key.strip.to_s.empty?
+      if @api_key.nil? or @api_key.strip.to_s.empty?
         raise Error, "Missing API Key."
       else
         return @api_key
