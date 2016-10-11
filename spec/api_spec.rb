@@ -4,8 +4,8 @@ describe PrintReleaf::API, "#api_key=" do
   let(:client) { Object.new.extend(PrintReleaf::API) }
 
   it "sets the api key" do
-    client.api_key = "MY-API-KEY"
-    expect(client.api_key).to eql "MY-API-KEY"
+    client.api_key = "my-api-key"
+    expect(client.api_key).to eql "my-api-key"
   end
 end
 
@@ -13,8 +13,8 @@ describe PrintReleaf::API, "#api_key" do
   context "when the API key has been set" do
     it "returns the API key" do
       client = Object.new.extend(PrintReleaf::API)
-      client.api_key = "MY-API-KEY"
-      expect(client.api_key).to eql "MY-API-KEY"
+      client.api_key = "my-api-key"
+      expect(client.api_key).to eql "my-api-key"
     end
   end
 
@@ -42,11 +42,37 @@ describe PrintReleaf::API, "#api_key" do
   end
 end
 
+describe PrintReleaf::API, "#endpoint=" do
+  let(:client) { Object.new.extend(PrintReleaf::API) }
+
+  it "has a default" do
+    expect(client.endpoint).not_to be_nil
+  end
+
+  it "sets the endpoint" do
+    client.endpoint = "api.example.com"
+    expect(client.endpoint).to eql "api.example.com"
+  end
+end
+
+describe PrintReleaf::API, "#protocol=" do
+  let(:client) { Object.new.extend(PrintReleaf::API) }
+
+  it "has a default" do
+    expect(client.protocol).not_to be_nil
+  end
+
+  it "sets the protocol" do
+    client.protocol = "pants"
+    expect(client.protocol).to eql "pants"
+  end
+end
+
 describe PrintReleaf::API, "#get" do
   let(:client) { Object.new.extend(PrintReleaf::API) }
 
   before do
-    client.api_key = "MY-API-KEY"
+    client.api_key = "my-api-key"
   end
 
   it "returns the response data of a GET request" do
@@ -62,7 +88,7 @@ describe PrintReleaf::API, "#post" do
   let(:client) { Object.new.extend(PrintReleaf::API) }
 
   before do
-    client.api_key = "MY-API-KEY"
+    client.api_key = "my-api-key"
   end
 
   it "returns the response data of a POST request" do
@@ -78,7 +104,7 @@ describe PrintReleaf::API, "#patch" do
   let(:client) { Object.new.extend(PrintReleaf::API) }
 
   before do
-    client.api_key = "MY-API-KEY"
+    client.api_key = "my-api-key"
   end
 
   it "returns the response data of a PATCH request" do
@@ -94,7 +120,7 @@ describe PrintReleaf::API, "#delete" do
   let(:client) { Object.new.extend(PrintReleaf::API) }
 
   before do
-    client.api_key = "MY-API-KEY"
+    client.api_key = "my-api-key"
   end
 
   it "returns the response data of a DELETE request" do
@@ -110,13 +136,15 @@ describe PrintReleaf::API, "#request" do
   let(:client) { Object.new.extend(PrintReleaf::API) }
 
   before do
-    client.api_key = "MY-API-KEY"
+    client.api_key  = "my-api-key"
+    client.endpoint = "api.example.com/v1/"
+    client.protocol = "pants"
   end
 
   context "when it is a GET request" do
     it "performs a get with the params" do
       expect(RestClient).to receive(:get).
-                            with("https://MY-API-KEY:@api.printreleaf.com/v1/path/to/resource/123", {params: {page: 5}, accept: :json}).
+                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {params: {page: 5}, accept: :json}).
                             and_return(double(body: "{}"))
       client.request(:get, "/path/to/resource/123", page: 5)
     end
@@ -125,7 +153,7 @@ describe PrintReleaf::API, "#request" do
   context "when it is a POST request" do
     it "performs a post with the params" do
       expect(RestClient).to receive(:post).
-                            with("https://MY-API-KEY:@api.printreleaf.com/v1/path/to/resource/123", {page: 5}.to_json, {accept: :json, content_type: :json}).
+                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {page: 5}.to_json, {accept: :json, content_type: :json}).
                             and_return(double(body: "{}"))
       client.request(:post, "/path/to/resource/123", {page: 5})
     end
@@ -134,7 +162,7 @@ describe PrintReleaf::API, "#request" do
   context "when it is a PATCH request" do
     it "performs a patch with the params" do
       expect(RestClient).to receive(:patch).
-                            with("https://MY-API-KEY:@api.printreleaf.com/v1/path/to/resource/123", {page: 5}.to_json, {accept: :json, content_type: :json}).
+                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {page: 5}.to_json, {accept: :json, content_type: :json}).
                             and_return(double(body: "{}"))
       client.request(:patch, "/path/to/resource/123", {page: 5})
     end
@@ -143,7 +171,7 @@ describe PrintReleaf::API, "#request" do
   context "when it is a DELETE request" do
     it "performs a delete on the uri" do
       expect(RestClient).to receive(:delete).
-                            with("https://MY-API-KEY:@api.printreleaf.com/v1/path/to/resource/123").
+                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123").
                             and_return(double(body: "{}"))
       client.request(:delete, "/path/to/resource/123")
     end
@@ -156,7 +184,7 @@ describe PrintReleaf::API, "#request" do
 
     before do
       allow(RestClient).to receive(:get).
-        with("https://MY-API-KEY:@api.printreleaf.com/v1/path/to/resource/123", {params: {page: 5}, accept: :json}).
+        with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {params: {page: 5}, accept: :json}).
         and_return(response)
     end
 

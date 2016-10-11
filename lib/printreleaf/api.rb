@@ -3,8 +3,11 @@ module PrintReleaf
     extend self
 
     ENDPOINT = "api.printreleaf.com/v1/"
+    PROTOCOL = "https"
 
     attr_writer :api_key
+    attr_writer :endpoint
+    attr_writer :protocol
     attr_accessor :logger
 
     def api_key
@@ -13,6 +16,14 @@ module PrintReleaf
       else
         return @api_key
       end
+    end
+
+    def endpoint
+      @endpoint || ENDPOINT
+    end
+
+    def protocol
+      @protocol || PROTOCOL
     end
 
     def get(uri="/", params={})
@@ -33,8 +44,8 @@ module PrintReleaf
 
     def request(verb, uri, params={})
       perform_request do
-        uri = Util.join_uri(ENDPOINT, uri)
-        url = "https://#{api_key}:@#{uri}"
+        uri = Util.join_uri(endpoint, uri)
+        url = "#{protocol}://#{api_key}:@#{uri}"
 
         unless logger.nil?
           logger.info "[PrintReleaf] #{verb.upcase} #{uri}"
