@@ -251,18 +251,23 @@ describe PrintReleaf::API, "#request" do
     end
 
     context "when a network exception is raised" do
+      before do
+        stub_const("PrintReleaf::API::MAX_RETRY_COUNT", 3)
+        stub_const("PrintReleaf::API::RETRY_DELAY_BASE", 0) # Don't sleep between retries
+      end
+
       it "raises an Error with a network error message" do
         allow(RestClient).to receive(:get).and_raise(SocketError)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 2 times. (SocketError)"
+        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (SocketError)"
       end
 
       it "raises an Error with a network error message" do
         allow(RestClient).to receive(:get).and_raise(Errno::ECONNREFUSED)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 2 times. (Errno::ECONNREFUSED)"
+        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (Errno::ECONNREFUSED)"
       end
     end
 

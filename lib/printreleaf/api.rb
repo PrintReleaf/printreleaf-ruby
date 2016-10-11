@@ -5,6 +5,7 @@ module PrintReleaf
     ENDPOINT = "api.printreleaf.com/v1/"
     PROTOCOL = "https"
     MAX_RETRY_COUNT = 2
+    RETRY_DELAY_BASE = 1.5 # Base for exponential delay
     NETWORK_EXCEPTIONS = [
       SocketError,
       Errno::ECONNREFUSED,
@@ -79,6 +80,7 @@ module PrintReleaf
       rescue => e
         if should_retry?(e, retry_count)
           retry_count += 1
+          sleep retry_delay(retry_count)
           retry
         else
           handle_error(e, retry_count)
@@ -136,6 +138,10 @@ module PrintReleaf
 
     def should_retry?(e, retry_count = 0)
       NETWORK_EXCEPTIONS.include?(e.class) && retry_count < MAX_RETRY_COUNT
+    end
+
+    def retry_delay(retry_count = 0)
+      RETRY_DELAY_BASE ** retry_count
     end
   end
 end
