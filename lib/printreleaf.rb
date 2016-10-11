@@ -14,6 +14,7 @@ require "printreleaf/util"
 require "printreleaf/api"
 require "printreleaf/resource"
 require "printreleaf/actions"
+require "printreleaf/integration"
 require "printreleaf/project"
 
 module PrintReleaf

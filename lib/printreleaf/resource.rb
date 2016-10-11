@@ -1,9 +1,8 @@
 module PrintReleaf
   class Resource < Hashie::Trash
     include Hashie::Extensions::IndifferentAccess
+    include Hashie::Extensions::IgnoreUndeclared
     include Hashie::Extensions::Coercion
-
-    property :object
 
     def initialize(*args)
       super
