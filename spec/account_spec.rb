@@ -112,7 +112,7 @@ describe PrintReleaf::Account, "#invitations" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
     relation = double
-    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Invitation, {actions: [:list, :find, :create, :delete]}).and_return(relation)
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Invitation, {actions: [:list, :find, :create]}).and_return(relation)
     expect(account.invitations).to eq relation
   end
 end

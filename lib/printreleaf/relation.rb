@@ -26,7 +26,9 @@ module PrintReleaf
     end
 
     def new(*args)
-      @resource_class.new(*args)
+      @resource_class.new(*args).tap do |resource|
+        resource.owner = owner
+      end
     end
 
     def resources

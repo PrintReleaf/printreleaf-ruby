@@ -2,6 +2,8 @@ module PrintReleaf
   class Invitation < Resource
     path "/invitations"
 
+    action :delete
+
     property :id
     property :account_id
     property :email

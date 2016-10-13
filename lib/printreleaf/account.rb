@@ -50,7 +50,7 @@ module PrintReleaf
     end
 
     def invitations
-      @invitations ||= Relation.new(self, Invitation, actions: [:list, :find, :create, :delete])
+      @invitations ||= Relation.new(self, Invitation, actions: [:list, :find, :create])
     end
 
     def volume

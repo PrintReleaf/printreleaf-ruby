@@ -3,7 +3,7 @@ module PrintReleaf
     extend self
 
     def join_uri(*args)
-      Array(args).join("/").gsub(/\/{2,}/, "/").chomp("/")
+      Array(args).compact.join("/").gsub(/\/{2,}/, "/").chomp("/")
     end
   end
 end

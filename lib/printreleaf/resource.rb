@@ -21,6 +21,7 @@ module PrintReleaf
     end
 
     attr_reader :copy
+    attr_accessor :owner
 
     def initialize(*args)
       super
@@ -28,7 +29,11 @@ module PrintReleaf
     end
 
     def uri
-      Util.join_uri(self.class.uri, self.id)
+      Util.join_uri(self.uri_scope, self.class.uri, self.id)
+    end
+
+    def uri_scope
+      owner ? owner.uri : nil
     end
 
     def find
