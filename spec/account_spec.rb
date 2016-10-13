@@ -64,4 +64,12 @@ describe PrintReleaf::Account, "properties" do
   end
 end
 
+describe PrintReleaf::Account, "#parent" do
+  it "returns the account's parent" do
+    parent = double
+    allow(PrintReleaf::Account).to receive(:find).with("parent-id").and_return(parent)
+    account = PrintReleaf::Account.new(parent_id: "parent-id")
+    expect(account.parent).to eql parent
+  end
+end
 

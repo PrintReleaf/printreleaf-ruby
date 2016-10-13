@@ -28,6 +28,10 @@ module PrintReleaf
     def self.uri
       "/accounts"
     end
+
+    def parent
+      Account.find(parent_id)
+    end
   end
 end
 
