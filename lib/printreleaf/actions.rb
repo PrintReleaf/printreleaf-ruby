@@ -56,6 +56,24 @@ module PrintReleaf
         return true
       end
     end
+
+    module Activate
+      def activate
+        uri = Util.join_uri(self.uri, "activate")
+        response = PrintReleaf.post(uri)
+        self.update(response)
+        return true
+      end
+    end
+
+    module Deactivate
+      def deactivate
+        uri = Util.join_uri(self.uri, "deactivate")
+        response = PrintReleaf.post(uri)
+        self.update(response)
+        return true
+      end
+    end
   end
 end
 

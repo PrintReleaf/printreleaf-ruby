@@ -7,6 +7,8 @@ class Widget < PrintReleaf::Resource
   action :create
   action :update
   action :delete
+  action :activate
+  action :deactivate
   property :id
   property :size
   property :quantity
@@ -64,6 +66,28 @@ describe PrintReleaf::Actions::Delete, "#delete" do
     expect(PrintReleaf).to receive(:delete).with("/widgets/123").and_return(response)
     expect(widget).to receive(:update).with(response)
     result = widget.delete
+    expect(result).to eq true
+  end
+end
+
+describe PrintReleaf::Actions::Activate, "#activate" do
+  it "activates the resource and returns true" do
+    response = double
+    widget = Widget.new(id: 123)
+    expect(PrintReleaf).to receive(:post).with("/widgets/123/activate").and_return(response)
+    expect(widget).to receive(:update).with(response)
+    result = widget.activate
+    expect(result).to eq true
+  end
+end
+
+describe PrintReleaf::Actions::Deactivate, "#deactivate" do
+  it "deactivates the resource and returns true" do
+    response = double
+    widget = Widget.new(id: 123)
+    expect(PrintReleaf).to receive(:post).with("/widgets/123/deactivate").and_return(response)
+    expect(widget).to receive(:update).with(response)
+    result = widget.deactivate
     expect(result).to eq true
   end
 end
