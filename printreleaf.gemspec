@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = PrintReleaf::VERSION
   spec.authors       = ["Casey O'Hara"]
   spec.email         = ["cohara@printreleaf.com"]
-  spec.summary       = "Ruby bindings for the PrintReleaf API"
+  spec.summary       = "Ruby toolkit for the PrintReleaf API"
   spec.description   = "See https://printreleaf.com for details."
   spec.homepage      = "https://github.com/printreleaf/printreleaf-ruby"
   spec.license       = "MIT"
