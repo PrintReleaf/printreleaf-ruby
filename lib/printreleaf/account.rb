@@ -45,6 +45,10 @@ module PrintReleaf
       @activities ||= Relation.new(self, Activity)
     end
 
+    def users
+      @users ||= Relation.new(self, User)
+    end
+
     def volume
       @volume ||= Relation.new(self, VolumePeriod, path: "/volume", actions: [:list])
     end

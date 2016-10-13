@@ -4,6 +4,12 @@ describe PrintReleaf::Activity do
   it_behaves_like "Resource"
 end
 
+describe PrintReleaf::Activity, ".uri" do
+  it "returns the base resource uri" do
+    expect(PrintReleaf::Activity.uri).to eql "/activities"
+  end
+end
+
 describe PrintReleaf::Activity, "properties" do
   let(:json) do
     JSON.parse <<-JSON
