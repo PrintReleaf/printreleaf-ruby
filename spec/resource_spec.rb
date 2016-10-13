@@ -3,11 +3,8 @@ require 'spec_helper'
 describe PrintReleaf::Resource, "#uri" do
   let(:widget_klass) do
     Class.new(PrintReleaf::Resource) do
+      path "/widgets"
       property :id
-
-      def self.uri
-        "/widgets"
-      end
     end
   end
 

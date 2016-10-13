@@ -1,15 +1,13 @@
 module PrintReleaf
   class Integration < Resource
-    include Actions::Find
-    include Actions::List
+    path "/integrations"
+
+    action :find
+    action :list
 
     property :id
     property :name
     property :description
-
-    def self.uri
-      "/integrations"
-    end
   end
 end
 

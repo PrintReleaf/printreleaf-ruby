@@ -1,7 +1,9 @@
 module PrintReleaf
   class Project < Resource
-    include Actions::Find
-    include Actions::List
+    path "/projects"
+
+    action :find
+    action :list
 
     property :id
     property :name
@@ -13,10 +15,6 @@ module PrintReleaf
     property :content_introduction
     property :content_body_html
     property :content_images
-
-    def self.uri
-      "/projects"
-    end
   end
 end
 

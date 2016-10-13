@@ -2,19 +2,15 @@ require 'spec_helper'
 
 module PrintReleaf
   class Widget < Resource
-    include Actions::Find
-    include Actions::List
-    include Actions::Create
-    include Actions::Update
-    include Actions::Delete
-
+    path "/widgets"
+    action :find
+    action :list
+    action :create
+    action :update
+    action :delete
     property :id
     property :size
     property :quantity
-
-    def self.uri
-      "/widgets"
-    end
   end
 end
 

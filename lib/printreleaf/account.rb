@@ -1,10 +1,12 @@
 module PrintReleaf
   class Account < Resource
-    include Actions::Find
-    include Actions::List
-    include Actions::Create
-    include Actions::Update
-    include Actions::Delete
+    path "/accounts"
+
+    action :find
+    action :list
+    action :create
+    action :update
+    action :delete
 
     property :id
     property :name
@@ -24,10 +26,6 @@ module PrintReleaf
     property :qtd_trees,      transform_with: Transforms::Float
     property :ytd_trees,      transform_with: Transforms::Float
     property :lifetime_trees, transform_with: Transforms::Float
-
-    def self.uri
-      "/accounts"
-    end
 
     def parent
       Account.find(parent_id)

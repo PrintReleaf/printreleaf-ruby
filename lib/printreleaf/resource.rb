@@ -4,6 +4,22 @@ module PrintReleaf
     include Hashie::Extensions::IgnoreUndeclared
     include Hashie::Extensions::Coercion
 
+    class << self
+      def path(value=nil)
+        @path = value if value
+        @path
+      end
+
+      def uri
+        path
+      end
+
+      def action(sym)
+        mod = Actions.const_get(sym.to_s.capitalize)
+        include mod
+      end
+    end
+
     def initialize(*args)
       super
       @_old = self.dup
