@@ -49,6 +49,10 @@ module PrintReleaf
       @users ||= Relation.new(self, User)
     end
 
+    def invitations
+      @invitations ||= Relation.new(self, Invitation, actions: [:list, :find, :create, :delete])
+    end
+
     def volume
       @volume ||= Relation.new(self, VolumePeriod, path: "/volume", actions: [:list])
     end
