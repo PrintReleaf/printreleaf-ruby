@@ -20,7 +20,7 @@ describe PrintReleaf::Actions::Find, ".find" do
     widget = double
     expect(PrintReleaf).to receive(:get).with("/widgets/123").and_return(json_data)
     expect(Widget).to receive(:new).with(json_data).and_return(widget)
-    expect(Widget.find(123)).to eql widget
+    expect(Widget.find(123)).to eq widget
   end
 end
 
@@ -31,7 +31,7 @@ describe PrintReleaf::Actions::List, ".list" do
     expect(PrintReleaf).to receive(:get).with("/widgets", {offset: 10, limit: 5}).and_return([json_data1, json_data2])
     expect(Widget).to receive(:new).with(json_data1).and_return(widget1)
     expect(Widget).to receive(:new).with(json_data2).and_return(widget2)
-    expect(Widget.list(offset: 10, limit: 5)).to eql [widget1, widget2]
+    expect(Widget.list(offset: 10, limit: 5)).to eq [widget1, widget2]
   end
 end
 
@@ -43,7 +43,7 @@ describe PrintReleaf::Actions::Create, ".create" do
     expect(PrintReleaf).to receive(:post).with("/widgets", params).and_return(json_data)
     expect(Widget).to receive(:new).with(json_data).and_return(new_widget)
     widget = Widget.create(params)
-    expect(widget).to eql new_widget
+    expect(widget).to eq new_widget
   end
 end
 

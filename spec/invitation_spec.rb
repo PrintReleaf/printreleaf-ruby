@@ -6,7 +6,7 @@ end
 
 describe PrintReleaf::Invitation, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::Invitation.uri).to eql "/invitations"
+    expect(PrintReleaf::Invitation.uri).to eq "/invitations"
   end
 end
 
@@ -36,7 +36,7 @@ describe PrintReleaf::Invitation, "#account" do
     account = double
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(account)
     invitation = PrintReleaf::Invitation.new(account_id: "123")
-    expect(invitation.account).to eql account
+    expect(invitation.account).to eq account
   end
 end
 

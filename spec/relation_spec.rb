@@ -11,12 +11,12 @@ describe PrintReleaf::Relation do
 
     allow(relation).to receive(:resources).and_return([book1, book2])
 
-    expect(relation.size).to eql (2)
-    expect(relation.length).to eql (2)
-    expect(relation.count).to eql (2)
+    expect(relation.size).to eq (2)
+    expect(relation.length).to eq (2)
+    expect(relation.count).to eq (2)
 
     titles = relation.map(&:title)
-    expect(titles).to eql ["Book 1", "Book 2"]
+    expect(titles).to eq ["Book 1", "Book 2"]
   end
 
   it "includes the provided actions" do

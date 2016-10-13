@@ -45,12 +45,16 @@ module PrintReleaf
       @activities ||= Relation.new(self, Activity)
     end
 
-    def users
-      @users ||= Relation.new(self, User)
+    def certificates
+      @certificates ||= Relation.new(self, Certificate)
     end
 
     def invitations
       @invitations ||= Relation.new(self, Invitation, actions: [:list, :find, :create])
+    end
+
+    def users
+      @users ||= Relation.new(self, User)
     end
 
     def volume

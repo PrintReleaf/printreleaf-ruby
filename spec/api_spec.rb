@@ -5,7 +5,7 @@ describe PrintReleaf::API, "#api_key=" do
 
   it "sets the api key" do
     client.api_key = "my-api-key"
-    expect(client.api_key).to eql "my-api-key"
+    expect(client.api_key).to eq "my-api-key"
   end
 end
 
@@ -14,7 +14,7 @@ describe PrintReleaf::API, "#api_key" do
     it "returns the API key" do
       client = Object.new.extend(PrintReleaf::API)
       client.api_key = "my-api-key"
-      expect(client.api_key).to eql "my-api-key"
+      expect(client.api_key).to eq "my-api-key"
     end
   end
 
@@ -51,7 +51,7 @@ describe PrintReleaf::API, "#endpoint=" do
 
   it "sets the endpoint" do
     client.endpoint = "api.example.com"
-    expect(client.endpoint).to eql "api.example.com"
+    expect(client.endpoint).to eq "api.example.com"
   end
 end
 
@@ -64,7 +64,7 @@ describe PrintReleaf::API, "#protocol=" do
 
   it "sets the protocol" do
     client.protocol = "pants"
-    expect(client.protocol).to eql "pants"
+    expect(client.protocol).to eq "pants"
   end
 end
 
@@ -80,7 +80,7 @@ describe PrintReleaf::API, "#get" do
     expect(client).to receive(:request).
                       with(:get, "/path/to/resource/123", {page: 5}).
                       and_return(response_data)
-    expect(client.get("/path/to/resource/123", page: 5)).to eql response_data
+    expect(client.get("/path/to/resource/123", page: 5)).to eq response_data
   end
 end
 
@@ -96,7 +96,7 @@ describe PrintReleaf::API, "#post" do
     expect(client).to receive(:request).
                       with(:post, "/path/to/resource/123", {page: 5}).
                       and_return(response_data)
-    expect(client.post("/path/to/resource/123", page: 5)).to eql response_data
+    expect(client.post("/path/to/resource/123", page: 5)).to eq response_data
   end
 end
 
@@ -112,7 +112,7 @@ describe PrintReleaf::API, "#patch" do
     expect(client).to receive(:request).
                       with(:patch, "/path/to/resource/123", {page: 5}).
                       and_return(response_data)
-    expect(client.patch("/path/to/resource/123", page: 5)).to eql response_data
+    expect(client.patch("/path/to/resource/123", page: 5)).to eq response_data
   end
 end
 
@@ -128,7 +128,7 @@ describe PrintReleaf::API, "#delete" do
     expect(client).to receive(:request).
                       with(:delete, "/path/to/resource/123").
                       and_return(response_data)
-    expect(client.delete("/path/to/resource/123")).to eql response_data
+    expect(client.delete("/path/to/resource/123")).to eq response_data
   end
 end
 
@@ -197,7 +197,7 @@ describe PrintReleaf::API, "#request" do
 
       it "returns the parsed JSON" do
         json = client.request(:get, "/path/to/resource/123", page: 5)
-        expect(json).to eql parsed_json
+        expect(json).to eq parsed_json
       end
     end
 

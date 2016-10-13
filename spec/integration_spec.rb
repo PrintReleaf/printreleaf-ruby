@@ -8,7 +8,7 @@ end
 
 describe PrintReleaf::Integration, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::Integration.uri).to eql "/integrations"
+    expect(PrintReleaf::Integration.uri).to eq "/integrations"
   end
 end
 

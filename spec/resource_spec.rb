@@ -10,13 +10,13 @@ describe PrintReleaf::Resource, "#uri" do
 
   it "returns its class's uri joined with its id" do
     widget = widget_klass.new(id: 123)
-    expect(widget.uri).to eql "/widgets/123"
+    expect(widget.uri).to eq "/widgets/123"
   end
 
   it "prepends its owner's uri when it has one" do
     widget = widget_klass.new(id: 123)
     widget.owner = double(uri: "/manufacturers/456")
-    expect(widget.uri).to eql "/manufacturers/456/widgets/123"
+    expect(widget.uri).to eq "/manufacturers/456/widgets/123"
   end
 end
 

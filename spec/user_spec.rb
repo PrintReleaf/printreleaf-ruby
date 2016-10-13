@@ -6,7 +6,7 @@ end
 
 describe PrintReleaf::User, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::User.uri).to eql "/users"
+    expect(PrintReleaf::User.uri).to eq "/users"
   end
 end
 
@@ -38,7 +38,7 @@ describe PrintReleaf::User, "#account" do
     account = double
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(account)
     user = PrintReleaf::User.new(account_id: "123")
-    expect(user.account).to eql account
+    expect(user.account).to eq account
   end
 end
 

@@ -6,7 +6,7 @@ end
 
 describe PrintReleaf::Activity, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::Activity.uri).to eql "/activities"
+    expect(PrintReleaf::Activity.uri).to eq "/activities"
   end
 end
 
@@ -38,7 +38,7 @@ describe PrintReleaf::Activity, "#account" do
     account = double
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(account)
     activity = PrintReleaf::Activity.new(account_id: "123")
-    expect(activity.account).to eql account
+    expect(activity.account).to eq account
   end
 end
 

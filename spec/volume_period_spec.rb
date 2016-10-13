@@ -30,7 +30,7 @@ describe PrintReleaf::VolumePeriod, "#account" do
     account = double
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(account)
     volume_period = PrintReleaf::VolumePeriod.new(account_id: "123")
-    expect(volume_period.account).to eql account
+    expect(volume_period.account).to eq account
   end
 end
 

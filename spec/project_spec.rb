@@ -8,7 +8,7 @@ end
 
 describe PrintReleaf::Project, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::Project.uri).to eql "/projects"
+    expect(PrintReleaf::Project.uri).to eq "/projects"
   end
 end
 

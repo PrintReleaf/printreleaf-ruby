@@ -13,7 +13,7 @@ end
 
 describe PrintReleaf::Account, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::Account.uri).to eql "/accounts"
+    expect(PrintReleaf::Account.uri).to eq "/accounts"
   end
 end
 
@@ -95,7 +95,7 @@ describe PrintReleaf::Account, "#parent" do
     parent = double
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(parent)
     account = PrintReleaf::Account.new(parent_id: "123")
-    expect(account.parent).to eql parent
+    expect(account.parent).to eq parent
   end
 end
 
@@ -105,6 +105,15 @@ describe PrintReleaf::Account, "#activities" do
     relation = double
     allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Activity).and_return(relation)
     expect(account.activities).to eq relation
+  end
+end
+
+describe PrintReleaf::Account, "#certificates" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Certificate).and_return(relation)
+    expect(account.certificates).to eq relation
   end
 end
 
