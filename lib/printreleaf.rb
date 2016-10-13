@@ -18,6 +18,7 @@ require "printreleaf/actions"
 require "printreleaf/integration"
 require "printreleaf/project"
 require "printreleaf/account"
+require "printreleaf/volume_period"
 
 module PrintReleaf
   extend API

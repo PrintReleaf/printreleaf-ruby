@@ -38,7 +38,14 @@ module PrintReleaf
     end
 
     def parent
-      Account.find(parent_id)
+      @parent ||= Account.find(parent_id)
+    end
+
+    def volume
+      uri = Util.join_uri(self.uri, "volume")
+      PrintReleaf.get(uri).map do |response|
+        VolumePeriod.new(response)
+      end
     end
   end
 end

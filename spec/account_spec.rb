@@ -91,11 +91,23 @@ describe PrintReleaf::Account, "#inactive?" do
 end
 
 describe PrintReleaf::Account, "#parent" do
-  it "returns the account's parent" do
+  it "returns the account's parent account" do
     parent = double
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(parent)
     account = PrintReleaf::Account.new(parent_id: "123")
     expect(account.parent).to eql parent
+  end
+end
+
+describe PrintReleaf::Account, "#volume" do
+  it "returns a list of the account's volume periods" do
+    account = PrintReleaf::Account.new(id: "123")
+    json_data1, json_data2 = double, double
+    volume_period1, volume_period2 = double, double
+    expect(PrintReleaf).to receive(:get).with("/accounts/123/volume").and_return([json_data1, json_data2])
+    expect(PrintReleaf::VolumePeriod).to receive(:new).with(json_data1).and_return(volume_period1)
+    expect(PrintReleaf::VolumePeriod).to receive(:new).with(json_data2).and_return(volume_period2)
+    expect(account.volume).to eql [volume_period1, volume_period2]
   end
 end
 
