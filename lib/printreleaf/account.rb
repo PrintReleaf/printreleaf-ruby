@@ -29,6 +29,14 @@ module PrintReleaf
     property :ytd_trees,      transform_with: Transforms::Float
     property :lifetime_trees, transform_with: Transforms::Float
 
+    def active?
+      status == "active"
+    end
+
+    def inactive?
+      status == "inactive"
+    end
+
     def parent
       Account.find(parent_id)
     end

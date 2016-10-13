@@ -66,6 +66,30 @@ describe PrintReleaf::Account, "properties" do
   end
 end
 
+describe PrintReleaf::Account, "#active?" do
+  it "returns true when its status is 'active'" do
+    account = PrintReleaf::Account.new(status: 'active')
+    expect(account.active?).to eq true
+  end
+
+  it "returns false when its status is not 'active'" do
+    account = PrintReleaf::Account.new(status: 'not active')
+    expect(account.active?).to eq false
+  end
+end
+
+describe PrintReleaf::Account, "#inactive?" do
+  it "returns true when its status is 'inactive'" do
+    account = PrintReleaf::Account.new(status: 'inactive')
+    expect(account.inactive?).to eq true
+  end
+
+  it "returns false when its status is not 'inactive'" do
+    account = PrintReleaf::Account.new(status: 'not inactive')
+    expect(account.inactive?).to eq false
+  end
+end
+
 describe PrintReleaf::Account, "#parent" do
   it "returns the account's parent" do
     parent = double
