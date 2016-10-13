@@ -34,3 +34,15 @@ RSpec.shared_examples "Actions::Delete" do
   end
 end
 
+RSpec.shared_examples "Actions::Activate" do
+  it "includes the Actions::Activate module" do
+    expect(described_class.ancestors).to include PrintReleaf::Actions::Activate
+  end
+end
+
+RSpec.shared_examples "Actions::Deactivate" do
+  it "includes the Actions::Deactivate module" do
+    expect(described_class.ancestors).to include PrintReleaf::Actions::Deactivate
+  end
+end
+

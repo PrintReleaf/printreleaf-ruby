@@ -7,6 +7,8 @@ describe PrintReleaf::Account do
   include_examples "Actions::Create"
   include_examples "Actions::Update"
   include_examples "Actions::Delete"
+  include_examples "Actions::Activate"
+  include_examples "Actions::Deactivate"
 end
 
 describe PrintReleaf::Account, ".uri" do
@@ -61,28 +63,6 @@ describe PrintReleaf::Account, "properties" do
     expect(account.qtd_trees).to eq 1.48
     expect(account.ytd_trees).to eq 14.82
     expect(account.lifetime_trees).to eq 148.15
-  end
-end
-
-describe PrintReleaf::Account, "#activate" do
-  it "activates the account and returns true" do
-    account = PrintReleaf::Account.new(id: "123")
-    response = double
-    expect(PrintReleaf).to receive(:post).with("/accounts/123/activate").and_return(response)
-    expect(account).to receive(:update).with(response)
-    result = account.activate
-    expect(result).to eq true
-  end
-end
-
-describe PrintReleaf::Account, "#deactivate" do
-  it "deactivates the account and returns true" do
-    account = PrintReleaf::Account.new(id: "123")
-    response = double
-    expect(PrintReleaf).to receive(:post).with("/accounts/123/deactivate").and_return(response)
-    expect(account).to receive(:update).with(response)
-    result = account.deactivate
-    expect(result).to eq true
   end
 end
 
