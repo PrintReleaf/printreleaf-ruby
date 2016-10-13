@@ -53,6 +53,7 @@ describe PrintReleaf::Actions::Update, "#save" do
     widget = Widget.new(id: 123, size: "Medium", quantity: 5)
     widget.size = "Large"
     expect(PrintReleaf).to receive(:patch).with("/widgets/123", {size: "Large"}).and_return(response)
+    expect(widget).to receive(:delete_if)
     expect(widget).to receive(:update).with(response)
     result = widget.save
     expect(result).to eq true
@@ -64,6 +65,7 @@ describe PrintReleaf::Actions::Delete, "#delete" do
     response = double
     widget = Widget.new(id: 123)
     expect(PrintReleaf).to receive(:delete).with("/widgets/123").and_return(response)
+    expect(widget).to receive(:delete_if)
     expect(widget).to receive(:update).with(response)
     result = widget.delete
     expect(result).to eq true
@@ -75,6 +77,7 @@ describe PrintReleaf::Actions::Activate, "#activate" do
     response = double
     widget = Widget.new(id: 123)
     expect(PrintReleaf).to receive(:post).with("/widgets/123/activate").and_return(response)
+    expect(widget).to receive(:delete_if)
     expect(widget).to receive(:update).with(response)
     result = widget.activate
     expect(result).to eq true
@@ -86,6 +89,7 @@ describe PrintReleaf::Actions::Deactivate, "#deactivate" do
     response = double
     widget = Widget.new(id: 123)
     expect(PrintReleaf).to receive(:post).with("/widgets/123/deactivate").and_return(response)
+    expect(widget).to receive(:delete_if)
     expect(widget).to receive(:update).with(response)
     result = widget.deactivate
     expect(result).to eq true
