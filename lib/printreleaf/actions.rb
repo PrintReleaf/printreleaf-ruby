@@ -2,42 +2,36 @@ module PrintReleaf
   module Actions
     module Find
       def self.included(base)
-        base.extend(ClassMethods)
+        base.extend(self)
       end
 
-      module ClassMethods
-        def find(id)
-          uri = Util.join_uri(self.uri, id)
-          response = PrintReleaf.get(uri)
-          self.new(response)
-        end
+      def find(id)
+        uri = Util.join_uri(self.uri, id)
+        response = PrintReleaf.get(uri)
+        self.new(response)
       end
     end
 
     module List
       def self.included(base)
-        base.extend(ClassMethods)
+        base.extend(self)
       end
 
-      module ClassMethods
-        def list(params={})
-          PrintReleaf.get(self.uri, params).map do |response|
-            self.new(response)
-          end
+      def list(params={})
+        PrintReleaf.get(self.uri, params).map do |response|
+          self.new(response)
         end
       end
     end
 
     module Create
       def self.included(base)
-        base.extend(ClassMethods)
+        base.extend(self)
       end
 
-      module ClassMethods
-        def create(params)
-          response = PrintReleaf.post(self.uri, params)
-          self.new(response)
-        end
+      def create(params)
+        response = PrintReleaf.post(self.uri, params)
+        self.new(response)
       end
     end
 

@@ -42,17 +42,11 @@ module PrintReleaf
     end
 
     def activities
-      uri = Util.join_uri(self.uri, "activities")
-      PrintReleaf.get(uri).map do |response|
-        Activity.new(response)
-      end
+      @activities ||= Relation.new(self, Activity)
     end
 
     def volume
-      uri = Util.join_uri(self.uri, "volume")
-      PrintReleaf.get(uri).map do |response|
-        VolumePeriod.new(response)
-      end
+      @volume ||= Relation.new(self, VolumePeriod, path: "/volume", actions: [:list])
     end
   end
 end

@@ -100,26 +100,20 @@ describe PrintReleaf::Account, "#parent" do
 end
 
 describe PrintReleaf::Account, "#activities" do
-  it "returns a list of the account's activities" do
-    account = PrintReleaf::Account.new(id: "123")
-    json_data1, json_data2 = double, double
-    activity1, activity2 = double, double
-    expect(PrintReleaf).to receive(:get).with("/accounts/123/activities").and_return([json_data1, json_data2])
-    expect(PrintReleaf::Activity).to receive(:new).with(json_data1).and_return(activity1)
-    expect(PrintReleaf::Activity).to receive(:new).with(json_data2).and_return(activity2)
-    expect(account.activities).to eql [activity1, activity2]
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Activity).and_return(relation)
+    expect(account.activities).to eq relation
   end
 end
 
 describe PrintReleaf::Account, "#volume" do
-  it "returns a list of the account's volume periods" do
-    account = PrintReleaf::Account.new(id: "123")
-    json_data1, json_data2 = double, double
-    volume_period1, volume_period2 = double, double
-    expect(PrintReleaf).to receive(:get).with("/accounts/123/volume").and_return([json_data1, json_data2])
-    expect(PrintReleaf::VolumePeriod).to receive(:new).with(json_data1).and_return(volume_period1)
-    expect(PrintReleaf::VolumePeriod).to receive(:new).with(json_data2).and_return(volume_period2)
-    expect(account.volume).to eql [volume_period1, volume_period2]
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::VolumePeriod, {path: "/volume", actions: [:list]}).and_return(relation)
+    expect(account.volume).to eq relation
   end
 end
 

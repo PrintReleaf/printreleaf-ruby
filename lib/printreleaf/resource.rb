@@ -31,6 +31,10 @@ module PrintReleaf
       Util.join_uri(self.class.uri, self.id)
     end
 
+    def find
+      raise "Does not implement"
+    end
+
     def changes
       keys.map(&:to_sym).inject({}) do |diff, key|
         unless self[key] == copy[key]
