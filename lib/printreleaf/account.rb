@@ -41,6 +41,13 @@ module PrintReleaf
       @parent ||= Account.find(parent_id)
     end
 
+    def activities
+      uri = Util.join_uri(self.uri, "activities")
+      PrintReleaf.get(uri).map do |response|
+        Activity.new(response)
+      end
+    end
+
     def volume
       uri = Util.join_uri(self.uri, "volume")
       PrintReleaf.get(uri).map do |response|
