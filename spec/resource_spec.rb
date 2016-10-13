@@ -26,11 +26,11 @@ describe PrintReleaf::Resource, "#changes" do
   it "returns a hash of the changed properties" do
     resource = widget_klass.new(size: "Large", color: "Blue", price: 123.45)
     resource.price = 678.90
-    expect(resource.changes).to eq({"price" => 678.90})
+    expect(resource.changes).to eq({price: 678.90})
     resource.size = "Medium"
-    expect(resource.changes).to eq({"size" => "Medium", "price" => 678.90})
+    expect(resource.changes).to eq({size: "Medium", price: 678.90})
     resource.price = 123.45
-    expect(resource.changes).to eq({"size" => "Medium"})
+    expect(resource.changes).to eq({size: "Medium"})
   end
 end
 

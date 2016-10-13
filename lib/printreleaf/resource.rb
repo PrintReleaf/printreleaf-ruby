@@ -32,7 +32,7 @@ module PrintReleaf
     end
 
     def changes
-      keys.inject({}) do |diff, key|
+      keys.map(&:to_sym).inject({}) do |diff, key|
         unless self[key] == copy[key]
           diff[key] = self[key]
         end

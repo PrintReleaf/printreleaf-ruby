@@ -7,7 +7,9 @@ module PrintReleaf
 
       module ClassMethods
         def find(id)
-          new PrintReleaf.get Util.join_uri(self.uri, id)
+          uri = Util.join_uri(self.uri, id)
+          response = PrintReleaf.get(uri)
+          self.new(response)
         end
       end
     end
@@ -20,7 +22,7 @@ module PrintReleaf
       module ClassMethods
         def list(params={})
           PrintReleaf.get(self.uri, params).map do |response|
-            new response
+            self.new(response)
           end
         end
       end
@@ -33,22 +35,25 @@ module PrintReleaf
 
       module ClassMethods
         def create(params)
-          new PrintReleaf.post self.uri, params
+          response = PrintReleaf.post(self.uri, params)
+          self.new(response)
         end
       end
     end
 
     module Update
       def save
-        PrintReleaf.patch self.uri, changes
-        true
+        response = PrintReleaf.patch(self.uri, changes)
+        self.update(response)
+        return true
       end
     end
 
     module Delete
       def delete
-        PrintReleaf.delete self.uri
-        true
+        response = PrintReleaf.delete(self.uri)
+        self.update(response)
+        return true
       end
     end
   end
