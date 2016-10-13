@@ -53,3 +53,26 @@ describe PrintReleaf::Project, "properties" do
   end
 end
 
+describe PrintReleaf::Project, "#active?" do
+  it "returns true when its status is 'active'" do
+    project = PrintReleaf::Project.new(status: 'active')
+    expect(project.active?).to eq true
+  end
+
+  it "returns false when its status is not 'active'" do
+    project = PrintReleaf::Project.new(status: 'not active')
+    expect(project.active?).to eq false
+  end
+end
+
+describe PrintReleaf::Project, "#inactive?" do
+  it "returns true when its status is 'inactive'" do
+    project = PrintReleaf::Project.new(status: 'inactive')
+    expect(project.inactive?).to eq true
+  end
+
+  it "returns false when its status is not 'inactive'" do
+    project = PrintReleaf::Project.new(status: 'not inactive')
+    expect(project.inactive?).to eq false
+  end
+end

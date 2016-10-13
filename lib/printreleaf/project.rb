@@ -15,6 +15,14 @@ module PrintReleaf
     property :content_introduction
     property :content_body_html
     property :content_images
+
+    def active?
+      status == "active"
+    end
+
+    def inactive?
+      status == "inactive"
+    end
   end
 end
 
