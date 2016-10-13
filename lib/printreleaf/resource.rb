@@ -29,15 +29,17 @@ module PrintReleaf
     end
 
     def uri
-      Util.join_uri(self.uri_scope, self.class.uri, self.id)
-    end
-
-    def uri_scope
-      owner ? owner.uri : nil
+      scope = owner ? owner.uri : nil
+      Util.join_uri(scope, self.class.uri, self.id)
     end
 
     def find
       raise "Does not implement"
+    end
+
+    def reset(hash)
+      delete_if { true }
+      update(hash)
     end
 
     def changes

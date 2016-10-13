@@ -40,3 +40,24 @@ describe PrintReleaf::Resource, "#changes" do
   end
 end
 
+describe PrintReleaf::Resource, "#reset" do
+  let(:widget_klass) do
+    Class.new(PrintReleaf::Resource) do
+      property :size
+      property :color
+      property :price
+    end
+  end
+
+  it "replaces the existing properties in place" do
+    resource = widget_klass.new(size: "Large", color: "Blue", price: 123.45)
+    expect(resource.price).to eq 123.45
+    expect(resource.size).to eq "Large"
+    expect(resource.color).to eq "Blue"
+    resource.reset(price: 678.90)
+    expect(resource.price).to eq 678.90
+    expect(resource.size).to eq nil
+    expect(resource.color).to eq nil
+  end
+end
+
