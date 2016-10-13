@@ -11,11 +11,13 @@ require "restclient"
 require "printreleaf/version"
 require "printreleaf/error"
 require "printreleaf/util"
+require "printreleaf/transforms"
 require "printreleaf/api"
 require "printreleaf/resource"
 require "printreleaf/actions"
 require "printreleaf/integration"
 require "printreleaf/project"
+require "printreleaf/account"
 
 module PrintReleaf
   extend API
