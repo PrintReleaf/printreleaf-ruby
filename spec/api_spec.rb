@@ -208,45 +208,49 @@ describe PrintReleaf::API, "#request" do
           and_raise(JSON::ParserError)
       end
 
-      it "raises Error" do
+      it "raises ResponseError" do
         expect {
           client.request(:get, "/path/to/resource/123", page: 5)
-        }.to raise_error PrintReleaf::Error
+        }.to raise_error PrintReleaf::ResponseError, "Unable to parse response. Please try again. (JSON::ParserError)"
       end
     end
   end
 
   context "when it is not successful" do
     context "when it is a known http status code" do
-      it "raises an Error with the appropriate message" do
-        response = double(:response, code: 400, body: '{"code":400,"message":"Invalid or missing request parameters."}')
+      it "raises an error with the appropriate message" do
+        response = double(:response, code: 400, body: '{"code":400,"error":"Invalid or missing request parameters."}')
         allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
-        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Invalid or missing request parameters."
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::BadRequest, "Invalid or missing request parameters. (code=400)"
 
-        response = double(:response, code: 401, body: '{"code":401,"message":"Invalid API key."}')
+        response = double(:response, code: 401, body: '{"code":401,"error":"Invalid API key."}')
         allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
-        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Invalid API key."
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Unauthorized, "Invalid API key. (code=401)"
 
-        response = double(:response, code: 403, body: '{"code":403,"message":"API keys were provided but the requested action is not authorized."}')
+        response = double(:response, code: 403, body: '{"code":403,"error":"API keys were provided but the requested action is not authorized."}')
         allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
-        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "API keys were provided but the requested action is not authorized."
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Forbidden, "API keys were provided but the requested action is not authorized. (code=403)"
 
-        response = double(:response, code: 404, body: '{"code":404,"message":"Not Found."}')
+        response = double(:response, code: 404, body: '{"code":404,"error":"Not Found."}')
         allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
-        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Not Found."
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::NotFound, "Not Found. (code=404)"
 
-        response = double(:response, code: 429, body: '{"code":404,"message":"Rate limit exceeded."}')
+        response = double(:response, code: 429, body: '{"code":429,"error":"Rate limit exceeded."}')
         allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
-        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Error, "Rate limit exceeded."
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::RateLimitExceeded, "Rate limit exceeded. (code=429)"
+
+        response = double(:response, code: 500, body: '{"code":500,"error":"Something went wrong. Please try again."}')
+        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::ServerError, "Something went wrong. Please try again. (code=500)"
       end
     end
 
     context "when it is an unknown http status code" do
-      it "raises an Error with a generic message" do
+      it "raises RequestError with a generic message" do
         allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Something went wrong with the request. Please try again. (RestClient::ExceptionWithResponse)"
+        }.to raise_error PrintReleaf::RequestError, "Something went wrong with the request. Please try again. (RestClient::ExceptionWithResponse)"
       end
     end
 
@@ -256,18 +260,18 @@ describe PrintReleaf::API, "#request" do
         stub_const("PrintReleaf::API::RETRY_DELAY_BASE", 0) # Don't sleep between retries
       end
 
-      it "raises an Error with a network error message" do
+      it "raises NetworkError with a network error message" do
         allow(RestClient).to receive(:get).and_raise(SocketError)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (SocketError)"
+        }.to raise_error PrintReleaf::NetworkError, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (SocketError)"
       end
 
-      it "raises an Error with a network error message" do
+      it "raises NetworkError with a network error message" do
         allow(RestClient).to receive(:get).and_raise(Errno::ECONNREFUSED)
         expect {
           client.request(:get, "/path/to/resource/123")
-        }.to raise_error PrintReleaf::Error, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (Errno::ECONNREFUSED)"
+        }.to raise_error PrintReleaf::NetworkError, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (Errno::ECONNREFUSED)"
       end
     end
 

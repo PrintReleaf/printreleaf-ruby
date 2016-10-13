@@ -109,31 +109,42 @@ module PrintReleaf
       # We likely got a http status code outside the 200-399 range.
       # If this is a GET or DELETE request, it is likely the resource is not owned by the client.
       # If this is a POST, PUT, or PATCH, the data might be invalid.
-      message = JSON.parse(e.response.body)["message"]
-      raise Error, message
+      code = e.response.code
+      message = e.response ? JSON.parse(e.response.body)["error"] : "Something went wrong. Please try again."
+      message += " (code=#{code})"
+      exception = case e.response.code
+      when 400; BadRequest
+      when 401; Unauthorized
+      when 403; Forbidden
+      when 404; NotFound
+      when 429; RateLimitExceeded
+      when 500; ServerError
+      else Error
+      end
+      raise exception, message
     end
 
     def handle_json_error(e, retry_count = 0)
       # We received the data fine, but we're unable to parse it.
       # Re-raise a generic error.
-      message = "Something went wrong parsing the response. Please try again."
+      message = "Unable to parse response. Please try again."
       message += " Request was retried #{retry_count} times." if retry_count > 0
       message += " (#{e.class.name})"
-      raise Error, message
+      raise ResponseError, message
     end
 
     def handle_network_error(e, retry_count = 0)
       message = "Unexpected error communicating when trying to connect to PrintReleaf."
       message += " Request was retried #{retry_count} times." if retry_count > 0
       message += " (#{e.class.name})"
-      raise Error, message
+      raise NetworkError, message
     end
 
     def handle_restclient_error(e, retry_count = 0)
       message = "Something went wrong with the request. Please try again."
       message += " Request was retried #{retry_count} times." if retry_count > 0
       message += " (#{e.class.name})"
-      raise Error, message
+      raise RequestError, message
     end
 
     def should_retry?(e, retry_count = 0)

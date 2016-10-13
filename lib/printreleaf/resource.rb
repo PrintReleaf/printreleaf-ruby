@@ -7,7 +7,7 @@ module PrintReleaf
     class << self
       def path(value=nil)
         @path = value if value
-        @path
+        @path or raise "path not declared"
       end
 
       def uri
