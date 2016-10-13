@@ -64,11 +64,33 @@ describe PrintReleaf::Account, "properties" do
   end
 end
 
+describe PrintReleaf::Account, "#activate" do
+  it "activates the account and returns true" do
+    account = PrintReleaf::Account.new(id: "123")
+    response = double
+    expect(PrintReleaf).to receive(:post).with("/accounts/123/activate").and_return(response)
+    expect(account).to receive(:update).with(response)
+    result = account.activate
+    expect(result).to eq true
+  end
+end
+
+describe PrintReleaf::Account, "#deactivate" do
+  it "deactivates the account and returns true" do
+    account = PrintReleaf::Account.new(id: "123")
+    response = double
+    expect(PrintReleaf).to receive(:post).with("/accounts/123/deactivate").and_return(response)
+    expect(account).to receive(:update).with(response)
+    result = account.deactivate
+    expect(result).to eq true
+  end
+end
+
 describe PrintReleaf::Account, "#parent" do
   it "returns the account's parent" do
     parent = double
-    allow(PrintReleaf::Account).to receive(:find).with("parent-id").and_return(parent)
-    account = PrintReleaf::Account.new(parent_id: "parent-id")
+    allow(PrintReleaf::Account).to receive(:find).with("123").and_return(parent)
+    account = PrintReleaf::Account.new(parent_id: "123")
     expect(account.parent).to eql parent
   end
 end

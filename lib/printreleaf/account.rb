@@ -27,6 +27,18 @@ module PrintReleaf
     property :ytd_trees,      transform_with: Transforms::Float
     property :lifetime_trees, transform_with: Transforms::Float
 
+    def activate
+      response = PrintReleaf.post(self.uri + "/activate")
+      self.update(response)
+      return true
+    end
+
+    def deactivate
+      response = PrintReleaf.post(self.uri + "/deactivate")
+      self.update(response)
+      return true
+    end
+
     def parent
       Account.find(parent_id)
     end
