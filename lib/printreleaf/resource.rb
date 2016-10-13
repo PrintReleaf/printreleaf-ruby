@@ -20,9 +20,11 @@ module PrintReleaf
       end
     end
 
+    attr_reader :copy
+
     def initialize(*args)
       super
-      @_old = self.dup
+      @copy = self.dup.freeze
     end
 
     def uri
@@ -31,12 +33,13 @@ module PrintReleaf
 
     def changes
       keys.inject({}) do |diff, key|
-        unless self[key] == @_old[key]
+        unless self[key] == copy[key]
           diff[key] = self[key]
         end
         diff
       end
     end
+
   end
 end
 
