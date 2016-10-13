@@ -20,6 +20,9 @@ module PrintReleaf
       end
     end
 
+    # Default properties
+    property :deleted
+
     attr_reader :copy
     attr_accessor :owner
 
@@ -51,6 +54,9 @@ module PrintReleaf
       end
     end
 
+    def deleted?
+      !!deleted
+    end
   end
 end
 

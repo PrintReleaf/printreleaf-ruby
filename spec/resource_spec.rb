@@ -61,3 +61,15 @@ describe PrintReleaf::Resource, "#reset" do
   end
 end
 
+describe PrintReleaf::Resource, "#deleted?" do
+  it "returns true when it is deleted" do
+    resource = PrintReleaf::Resource.new(deleted: true)
+    expect(resource.deleted?).to eq true
+  end
+
+  it "returns false when it is not deleted" do
+    resource = PrintReleaf::Resource.new
+    expect(resource.deleted?).to eq false
+  end
+end
+
