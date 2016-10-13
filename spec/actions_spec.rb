@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module PrintReleaf
   class Widget < Resource
-    include Actions::Retrieve
+    include Actions::Find
     include Actions::List
     include Actions::Create
     include Actions::Update
@@ -18,13 +18,13 @@ module PrintReleaf
   end
 end
 
-describe PrintReleaf::Actions::Retrieve, ".retrieve" do
+describe PrintReleaf::Actions::Find, ".find" do
   it "returns an instance of the resource for the given id" do
     json_data = double
     widget = double
     expect(PrintReleaf).to receive(:get).with("/widgets/123").and_return(json_data)
     expect(PrintReleaf::Widget).to receive(:new).with(json_data).and_return(widget)
-    expect(PrintReleaf::Widget.retrieve(123)).to eql widget
+    expect(PrintReleaf::Widget.find(123)).to eql widget
   end
 end
 

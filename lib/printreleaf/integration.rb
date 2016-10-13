@@ -1,6 +1,6 @@
 module PrintReleaf
   class Integration < Resource
-    include Actions::Retrieve
+    include Actions::Find
     include Actions::List
 
     property :id

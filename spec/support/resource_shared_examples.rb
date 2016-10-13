@@ -4,9 +4,9 @@ RSpec.shared_examples "Resource" do
   end
 end
 
-RSpec.shared_examples "Actions::Retrieve" do
-  it "includes the Actions::Retrieve module" do
-    expect(described_class.ancestors).to include PrintReleaf::Actions::Retrieve
+RSpec.shared_examples "Actions::Find" do
+  it "includes the Actions::Find module" do
+    expect(described_class.ancestors).to include PrintReleaf::Actions::Find
   end
 end
 

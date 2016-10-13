@@ -1,12 +1,12 @@
 module PrintReleaf
   module Actions
-    module Retrieve
+    module Find
       def self.included(base)
         base.extend(ClassMethods)
       end
 
       module ClassMethods
-        def retrieve(id)
+        def find(id)
           new PrintReleaf.get Util.join_uri(self.uri, id)
         end
       end

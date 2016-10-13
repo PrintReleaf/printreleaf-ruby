@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PrintReleaf::Project do
   it_behaves_like "Resource"
-  include_examples "Actions::Retrieve"
+  include_examples "Actions::Find"
   include_examples "Actions::List"
 end
 
