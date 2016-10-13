@@ -1,4 +1,6 @@
-# PrintReleaf
+# PrintReleaf Ruby API  [![Build Status](https://travis-ci.org/PrintReleaf/printreleaf-ruby.svg)](https://travis-ci.org/PrintReleaf/printreleaf-ruby)
+
+Ruby toolkit for the [PrintReleaf API](https://printreleaf.com/docs/api).
 
 ## Installation
 
