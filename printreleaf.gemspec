@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["cohara@printreleaf.com"]
   spec.summary       = "Ruby bindings for the PrintReleaf API"
   spec.description   = "See https://printreleaf.com for details."
-  spec.homepage      = "https://github.com/printreleaf/printreleaf-sdk-ruby"
+  spec.homepage      = "https://github.com/printreleaf/printreleaf-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
