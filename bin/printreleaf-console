@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'irb'
+require 'irb/completion'
+
+require "bundler/setup"
+require "printreleaf"
+
+IRB.conf[:PROMPT_MODE] = :SIMPLE
+IRB.conf[:AUTO_INDENT] = true
+IRB.conf[:SAVE_HISTORY] = 100
+
+IRB.start
+
