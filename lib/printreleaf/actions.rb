@@ -38,8 +38,7 @@ module PrintReleaf
     module Update
       def save
         response = PrintReleaf.patch(self.uri, changes)
-        self.delete_if { true }
-        self.update(response)
+        reset(response)
         return true
       end
     end
@@ -47,8 +46,7 @@ module PrintReleaf
     module Delete
       def delete
         response = PrintReleaf.delete(self.uri)
-        self.delete_if { true }
-        self.update(response)
+        reset(response)
         return true
       end
     end
@@ -57,8 +55,7 @@ module PrintReleaf
       def activate
         uri = Util.join_uri(self.uri, "activate")
         response = PrintReleaf.post(uri)
-        self.delete_if { true }
-        self.update(response)
+        reset(response)
         return true
       end
     end
@@ -67,8 +64,7 @@ module PrintReleaf
       def deactivate
         uri = Util.join_uri(self.uri, "deactivate")
         response = PrintReleaf.post(uri)
-        self.delete_if { true }
-        self.update(response)
+        reset(response)
         return true
       end
     end
