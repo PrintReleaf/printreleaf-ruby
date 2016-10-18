@@ -41,10 +41,6 @@ module PrintReleaf
       @parent ||= Account.find(parent_id)
     end
 
-    def activities
-      @activities ||= Relation.new(self, Activity)
-    end
-
     def certificates
       @certificates ||= Relation.new(self, Certificate)
     end

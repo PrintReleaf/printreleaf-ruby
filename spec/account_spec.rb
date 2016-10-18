@@ -99,15 +99,6 @@ describe PrintReleaf::Account, "#parent" do
   end
 end
 
-describe PrintReleaf::Account, "#activities" do
-  it "returns a relation" do
-    account = PrintReleaf::Account.new
-    relation = double
-    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Activity).and_return(relation)
-    expect(account.activities).to eq relation
-  end
-end
-
 describe PrintReleaf::Account, "#certificates" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
