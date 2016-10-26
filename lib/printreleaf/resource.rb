@@ -57,6 +57,22 @@ module PrintReleaf
     def deleted?
       !!deleted
     end
+
+    def inspect
+      "".tap do |str|
+        str << "#<#{self.class} "
+        str << JSON.pretty_generate(self)
+        str << ">"
+      end
+    end
+
+    def compact_inspect
+      "".tap do |str|
+        str << "#<#{self.class} "
+        str << "id='#{self.id}'" if respond_to?(:id)
+        str << ">"
+      end
+    end
   end
 end
 

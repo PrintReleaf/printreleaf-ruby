@@ -41,6 +41,12 @@ module PrintReleaf
       @parent ||= Account.find(parent_id)
     end
 
+    def accounts
+      @accounts ||= Relation.new(self, Account, actions: [
+        :find, :list, :create, :update, :delete, :activate, :deactivate
+      ])
+    end
+
     def certificates
       @certificates ||= Relation.new(self, Certificate)
     end

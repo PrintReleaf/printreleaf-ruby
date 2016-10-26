@@ -14,8 +14,8 @@ module PrintReleaf
       @resource_class = resource_class
       @path           = options[:path] || resource_class.uri
 
-      actions = options[:actions] || [:list, :find]
-      actions.each do |action|
+      @actions = options[:actions] || [:list, :find]
+      @actions.each do |action|
         mod = Actions.const_get(action.to_s.capitalize)
         extend mod
       end
@@ -33,6 +33,10 @@ module PrintReleaf
 
     def resources
       list
+    end
+
+    def inspect
+      "#<#{self.class}(#{resource_class}) owner=#{owner.compact_inspect} path=#{path} actions=#{actions}>"
     end
   end
 end
