@@ -17,6 +17,17 @@ describe PrintReleaf::Account, ".uri" do
   end
 end
 
+describe PrintReleaf::Account, ".mine" do
+  it "returns an instance for the authenticated client's own account" do
+    json_data = double
+    account = double
+    expect(PrintReleaf).to receive(:get).with("/account").and_return(json_data)
+    expect(PrintReleaf::Account).to receive(:new).with(json_data).and_return(account)
+    result = PrintReleaf::Account.mine
+    expect(result).to eq account
+  end
+end
+
 describe PrintReleaf::Account, "properties" do
   let(:json) do
     JSON.parse <<-JSON

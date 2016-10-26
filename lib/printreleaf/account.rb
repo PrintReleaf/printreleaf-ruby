@@ -29,6 +29,11 @@ module PrintReleaf
     property :ytd_trees,      transform_with: Transforms::Float
     property :lifetime_trees, transform_with: Transforms::Float
 
+    def self.mine
+      response = PrintReleaf.get("/account")
+      self.new(response)
+    end
+
     def active?
       status == "active"
     end
