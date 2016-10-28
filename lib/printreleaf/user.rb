@@ -2,6 +2,10 @@ module PrintReleaf
   class User < Resource
     path "/users"
 
+    action :find
+    action :list
+    action :delete
+
     property :id
     property :account_id
     property :name

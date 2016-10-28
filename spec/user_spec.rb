@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe PrintReleaf::User do
   it_behaves_like "Resource"
+  include_examples "Actions::Find"
+  include_examples "Actions::List"
+  include_examples "Actions::Delete"
 end
 
 describe PrintReleaf::User, ".uri" do
