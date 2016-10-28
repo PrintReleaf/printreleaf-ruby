@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe PrintReleaf::Invitation do
   it_behaves_like "Resource"
+  include_examples "Actions::Find"
+  include_examples "Actions::List"
+  include_examples "Actions::Create"
+  include_examples "Actions::Delete"
 end
 
 describe PrintReleaf::Invitation, ".uri" do

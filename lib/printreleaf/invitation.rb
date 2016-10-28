@@ -2,6 +2,9 @@ module PrintReleaf
   class Invitation < Resource
     path "/invitations"
 
+    action :find
+    action :list
+    action :create
     action :delete
 
     property :id
