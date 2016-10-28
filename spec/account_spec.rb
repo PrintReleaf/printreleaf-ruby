@@ -6,7 +6,6 @@ describe PrintReleaf::Account do
   include_examples "Actions::List"
   include_examples "Actions::Create"
   include_examples "Actions::Update"
-  include_examples "Actions::Delete"
   include_examples "Actions::Activate"
   include_examples "Actions::Deactivate"
 end
@@ -114,8 +113,8 @@ describe PrintReleaf::Account, "#accounts" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
     relation = double
-    actions = [ :find, :list, :create, :update, :delete, :activate, :deactivate ]
-    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Account, actions: actions).and_return(relation)
+    actions = [:find, :list, :create, :update, :activate, :deactivate]
+    expect(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Account, actions: actions).and_return(relation)
     expect(account.accounts).to eq relation
   end
 end

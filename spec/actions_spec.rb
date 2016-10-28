@@ -35,6 +35,17 @@ describe PrintReleaf::Actions::List, ".list" do
   end
 end
 
+describe PrintReleaf::Actions::List do
+  it "behaves like a collection" do
+    widget1, widget2, widget3 = double(id: 1), double(id: 2), double(id: 3)
+    allow(Widget).to receive(:list).and_return([widget1, widget2, widget3])
+    expect(Widget.first).to eq widget1
+    expect(Widget.last).to eq widget3
+    expect(Widget.count).to eq 3
+    expect(Widget.length).to eq 3
+  end
+end
+
 describe PrintReleaf::Actions::Create, ".create" do
   it "creates, saves, and returns a new resource with the response data" do
     params = double

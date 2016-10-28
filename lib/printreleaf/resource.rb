@@ -14,9 +14,16 @@ module PrintReleaf
         path
       end
 
+      def actions
+        @actions ||= Set.new
+      end
+
       def action(sym)
-        mod = Actions.const_get(sym.to_s.capitalize)
-        include mod
+        actions.tap { |list|
+          list.add(sym)
+        }.each { |action|
+          include Actions.const_get(action.to_s.capitalize)
+        }
       end
     end
 

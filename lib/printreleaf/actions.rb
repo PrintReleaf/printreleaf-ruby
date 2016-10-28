@@ -14,12 +14,42 @@ module PrintReleaf
 
     module List
       def self.included(base)
-        base.extend(self)
+        base.extend(ClassMethods)
       end
 
-      def list(params={})
-        PrintReleaf.get(self.uri, params).map do |response|
-          self.new(response)
+      def self.extended(base)
+        base.extend(InstanceMethods)
+      end
+
+      module ClassMethods
+        def list(params={})
+          PrintReleaf.get(self.uri, params).map do |response|
+            self.new(response)
+          end
+        end
+
+        def first
+          list.first
+        end
+
+        def last
+          list.last
+        end
+
+        def count
+          list.count
+        end
+
+        def length
+          list.length
+        end
+      end
+
+      module InstanceMethods
+        def list(params={})
+          PrintReleaf.get(self.uri, params).map do |response|
+            self.new(response)
+          end
         end
       end
     end

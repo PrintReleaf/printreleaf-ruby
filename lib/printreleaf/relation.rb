@@ -1,8 +1,6 @@
 module PrintReleaf
   class Relation
     include Enumerable
-    extend Forwardable
-    def_delegators :resources, :each, :first, :last, :size, :count, :length
 
     attr_reader :owner
     attr_reader :resource_class
@@ -13,11 +11,9 @@ module PrintReleaf
       @owner          = owner
       @resource_class = resource_class
       @path           = options[:path] || resource_class.uri
-
-      @actions = options[:actions] || [:list, :find]
+      @actions        = Set.new(options[:actions] || resource_class.actions)
       @actions.each do |action|
-        mod = Actions.const_get(action.to_s.capitalize)
-        extend mod
+        extend Actions.const_get(action.to_s.capitalize)
       end
     end
 
@@ -31,8 +27,35 @@ module PrintReleaf
       end
     end
 
-    def resources
-      list
+    def related
+      if respond_to?(:list)
+        return list
+      else
+        raise "Relation not defined."
+      end
+    end
+
+    def each
+      return enum_for(:each) unless block_given?
+      related.each do |resource|
+        yield resource
+      end
+    end
+
+    def first
+      related.first
+    end
+
+    def last
+      related.last
+    end
+
+    def count
+      related.count
+    end
+
+    def length
+      related.length
     end
 
     def inspect
