@@ -26,6 +26,16 @@ module PrintReleaf
       @account ||= Account.find(account_id)
     end
 
+    def server
+      @server ||= begin
+        if credentials.respond_to? :server_id
+          Server.find(credentials.server_id)
+        else
+          nil
+        end
+      end
+    end
+
     class Config < Hashie::Mash
     end
   end

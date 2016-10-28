@@ -64,3 +64,17 @@ describe PrintReleaf::Source, "#account" do
   end
 end
 
+describe PrintReleaf::Source, "#server" do
+  it "returns the source's server when it has one" do
+    server = double
+    allow(PrintReleaf::Server).to receive(:find).with("123").and_return(server)
+    source = PrintReleaf::Source.new(credentials: {server_id: "123"})
+    expect(source.server).to eq server
+  end
+
+  it "returns nil when it doesn't have a server" do
+    source = PrintReleaf::Source.new(credentials: {})
+    expect(source.server).to eq nil
+  end
+end
+
