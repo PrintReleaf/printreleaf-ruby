@@ -65,6 +65,10 @@ module PrintReleaf
       @servers ||= Relation.new(self, Server)
     end
 
+    def sources
+      @sources ||= Relation.new(self, Source)
+    end
+
     def users
       @users ||= Relation.new(self, User)
     end
