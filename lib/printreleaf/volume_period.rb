@@ -1,5 +1,9 @@
 module PrintReleaf
   class VolumePeriod < Resource
+    path "/volume"
+
+    action :list
+
     property :account_id
     property :date,  transform_with: Transforms::Date
     property :pages, transform_with: Transforms::Integer

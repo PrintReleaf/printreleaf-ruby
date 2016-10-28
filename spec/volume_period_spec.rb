@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe PrintReleaf::VolumePeriod do
   it_behaves_like "Resource"
+  include_examples "Actions::List"
+end
+
+describe PrintReleaf::VolumePeriod, ".uri" do
+  it "returns the base resource uri" do
+    expect(PrintReleaf::VolumePeriod.uri).to eq "/volume"
+  end
 end
 
 describe PrintReleaf::VolumePeriod, "properties" do
