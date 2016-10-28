@@ -20,6 +20,7 @@ require "printreleaf/project"
 require "printreleaf/account"
 require "printreleaf/certificate"
 require "printreleaf/invitation"
+require "printreleaf/server"
 require "printreleaf/user"
 require "printreleaf/volume_period"
 
