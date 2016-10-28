@@ -2,6 +2,9 @@ module PrintReleaf
   class Certificate < Resource
     path "/certificates"
 
+    action :find
+    action :list
+
     property :id
     property :account_id
     property :period_start, transform_with: Transforms::Date

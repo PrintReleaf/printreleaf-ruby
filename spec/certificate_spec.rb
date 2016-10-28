@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe PrintReleaf::Certificate do
   it_behaves_like "Resource"
+  include_examples "Actions::List"
+  include_examples "Actions::Find"
 end
 
 describe PrintReleaf::Certificate, ".uri" do
