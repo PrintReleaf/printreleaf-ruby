@@ -114,7 +114,7 @@ describe PrintReleaf::Account, "#accounts" do
     account = PrintReleaf::Account.new
     relation = double
     actions = [:find, :list, :create, :update, :activate, :deactivate]
-    expect(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Account, actions: actions).and_return(relation)
+    expect(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Account).and_return(relation)
     expect(account.accounts).to eq relation
   end
 end
@@ -132,8 +132,17 @@ describe PrintReleaf::Account, "#invitations" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
     relation = double
-    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Invitation, {actions: [:list, :find, :create]}).and_return(relation)
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Invitation).and_return(relation)
     expect(account.invitations).to eq relation
+  end
+end
+
+describe PrintReleaf::Account, "#servers" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Server).and_return(relation)
+    expect(account.servers).to eq relation
   end
 end
 
@@ -150,7 +159,7 @@ describe PrintReleaf::Account, "#volume" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
     relation = double
-    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::VolumePeriod, {path: "/volume", actions: [:list]}).and_return(relation)
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::VolumePeriod).and_return(relation)
     expect(account.volume).to eq relation
   end
 end

@@ -50,7 +50,7 @@ module PrintReleaf
     end
 
     def accounts
-      @accounts ||= Relation.new(self, Account, actions: [:find, :list, :create, :update, :activate, :deactivate])
+      @accounts ||= Relation.new(self, Account)
     end
 
     def certificates
@@ -58,7 +58,11 @@ module PrintReleaf
     end
 
     def invitations
-      @invitations ||= Relation.new(self, Invitation, actions: [:list, :find, :create])
+      @invitations ||= Relation.new(self, Invitation)
+    end
+
+    def servers
+      @servers ||= Relation.new(self, Server)
     end
 
     def users
@@ -66,7 +70,7 @@ module PrintReleaf
     end
 
     def volume
-      @volume ||= Relation.new(self, VolumePeriod, path: "/volume", actions: [:list])
+      @volume ||= Relation.new(self, VolumePeriod)
     end
   end
 end
