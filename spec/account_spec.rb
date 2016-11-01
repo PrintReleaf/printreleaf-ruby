@@ -76,6 +76,15 @@ describe PrintReleaf::Account, "properties" do
   end
 end
 
+describe PrintReleaf::Account, "#uri" do
+  it "always returns its root uri" do
+    account = PrintReleaf::Account.new(id: "123")
+    expect(account.uri).to eq "/accounts/123"
+    account.owner = double(uri: "/owner/123")
+    expect(account.uri).to eq "/accounts/123"
+  end
+end
+
 describe PrintReleaf::Account, "#active?" do
   it "returns true when its status is 'active'" do
     account = PrintReleaf::Account.new(status: 'active')

@@ -33,6 +33,14 @@ module PrintReleaf
       self.new(response)
     end
 
+    # Account URI is always root, even when it has an owner.
+    #   /accounts/456
+    # Instead of:
+    #   /accounts/123/accounts/456
+    def uri
+      Util.join_uri(self.class.uri, self.id)
+    end
+
     def active?
       status == "active"
     end
