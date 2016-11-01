@@ -13,9 +13,10 @@ module PrintReleaf
     property :id
     property :account_id
     property :type
+    property :server_id
+    property :external_id
+    property :collection_scope
     property :created_at, transform_with: Transforms::Date
-    property :credentials
-    coerce_key :credentials, ->(hash) { Config.new(hash) }
     property :status
     property :activated_at, transform_with: Transforms::Date
     property :deactivated_at, transform_with: Transforms::Date
@@ -28,10 +29,10 @@ module PrintReleaf
 
     def server
       @server ||= begin
-        if credentials.respond_to? :server_id
-          Server.find(credentials.server_id)
-        else
+        if server_id.nil?
           nil
+        else
+          Server.find(server_id)
         end
       end
     end

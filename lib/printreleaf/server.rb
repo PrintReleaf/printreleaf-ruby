@@ -12,14 +12,12 @@ module PrintReleaf
     property :account_id
     property :type
     property :created_at, transform_with: Transforms::Date
-    property :credentials
-    coerce_key :credentials, ->(hash) { Config.new(hash) }
+    property :url
+    property :username
+    property :password
 
     def account
       @account ||= Account.find(account_id)
-    end
-
-    class Config < Hashie::Mash
     end
   end
 end

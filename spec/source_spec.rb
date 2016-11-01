@@ -24,11 +24,10 @@ describe PrintReleaf::Source, "properties" do
         "id": "44e182ed-cd50-4fa1-af90-e77dd6d6a78c",
         "account_id": "971d10ac-a912-42c0-aa41-f55adc7b6755",
         "type": "fmaudit",
+        "server_id": "eadabb78-b199-43cb-adbd-ab36ce5c5a10",
+        "external_id": "456",
+        "collection_scope": "managed_only",
         "created_at": "2015-10-28T07:37:13Z",
-        "credentials": {
-          "server_id": "eadabb78-b199-43cb-adbd-ab36ce5c5a10",
-          "fmaudit_account_id": "456"
-        },
         "status": "active",
         "activated_at": "2015-10-28T07:37:13Z",
         "deactivated_at": null,
@@ -43,10 +42,10 @@ describe PrintReleaf::Source, "properties" do
     expect(source.id).to eq "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
     expect(source.account_id).to eq "971d10ac-a912-42c0-aa41-f55adc7b6755"
     expect(source.type).to eq "fmaudit"
+    expect(source.server_id).to eq "eadabb78-b199-43cb-adbd-ab36ce5c5a10"
+    expect(source.external_id).to eq "456"
+    expect(source.collection_scope).to eq "managed_only"
     expect(source.created_at).to eq DateTime.parse("2015-10-28T07:37:13Z")
-    expect(source.credentials).to be_a PrintReleaf::Source::Config
-    expect(source.credentials.server_id).to eq "eadabb78-b199-43cb-adbd-ab36ce5c5a10"
-    expect(source.credentials.fmaudit_account_id).to eq "456"
     expect(source.status).to eq "active"
     expect(source.activated_at).to eq DateTime.parse("2015-10-28T07:37:13Z")
     expect(source.deactivated_at).to eq nil
@@ -68,12 +67,12 @@ describe PrintReleaf::Source, "#server" do
   it "returns the source's server when it has one" do
     server = double
     allow(PrintReleaf::Server).to receive(:find).with("123").and_return(server)
-    source = PrintReleaf::Source.new(credentials: {server_id: "123"})
+    source = PrintReleaf::Source.new(server_id: "123")
     expect(source.server).to eq server
   end
 
   it "returns nil when it doesn't have a server" do
-    source = PrintReleaf::Source.new(credentials: {})
+    source = PrintReleaf::Source.new
     expect(source.server).to eq nil
   end
 end
