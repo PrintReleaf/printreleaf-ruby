@@ -50,9 +50,16 @@ module PrintReleaf
     end
 
     def parent
-      @parent ||= Account.find(parent_id)
+      @parent ||= begin
+        if parent_id.nil?
+          nil
+        else
+          Account.find(parent_id)
+        end
+      end
     end
 
+    # Alias
     def children
       accounts
     end

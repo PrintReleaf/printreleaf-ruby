@@ -116,6 +116,11 @@ describe PrintReleaf::Account, "#parent" do
     account = PrintReleaf::Account.new(parent_id: "123")
     expect(account.parent).to eq parent
   end
+
+  it "returns nil when its parent_id is nil" do
+    account = PrintReleaf::Account.new(parent_id: nil)
+    expect(account.parent).to eq nil
+  end
 end
 
 describe PrintReleaf::Account, "#accounts" do
