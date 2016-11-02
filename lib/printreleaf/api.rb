@@ -6,6 +6,7 @@ module PrintReleaf
     PROTOCOL = "https"
     MAX_RETRY_COUNT = 2
     RETRY_DELAY_BASE = 1.5 # Base for exponential delay
+
     NETWORK_EXCEPTIONS = [
       SocketError,
       Errno::ECONNREFUSED,
@@ -13,6 +14,15 @@ module PrintReleaf
       Errno::ETIMEDOUT,
       RestClient::RequestTimeout
     ]
+
+    API_EXCEPTIONS = {
+      400 => BadRequest,
+      401 => Unauthorized,
+      403 => Forbidden,
+      404 => NotFound,
+      429 => RateLimitExceeded,
+      500 => ServerError
+    }
 
     attr_writer :api_key
     attr_writer :endpoint
@@ -73,7 +83,7 @@ module PrintReleaf
 
     private
 
-    def perform_request(&block)
+    def perform_request
       retry_count = 0
       begin
         yield
@@ -105,26 +115,19 @@ module PrintReleaf
       end
     end
 
-    def handle_api_error(e, retry_count = 0)
-      # We likely got a http status code outside the 200-399 range.
+    def handle_api_error(e, retry_count=0)
+      # We likely got an http status code outside the 200-399 range.
       # If this is a GET or DELETE request, it is likely the resource is not owned by the client.
       # If this is a POST, PUT, or PATCH, the data might be invalid.
       code = e.response.code
       message = e.response ? JSON.parse(e.response.body)["error"] : "Something went wrong. Please try again."
       message += " (code=#{code})"
-      exception = case e.response.code
-      when 400; BadRequest
-      when 401; Unauthorized
-      when 403; Forbidden
-      when 404; NotFound
-      when 429; RateLimitExceeded
-      when 500; ServerError
-      else Error
-      end
+      message += " Request was retried #{retry_count} times." if retry_count > 0
+      exception = API_EXCEPTIONS[e.response.code] || Error
       raise exception, message
     end
 
-    def handle_json_error(e, retry_count = 0)
+    def handle_json_error(e, retry_count=0)
       # We received the data fine, but we're unable to parse it.
       # Re-raise a generic error.
       message = "Unable to parse response. Please try again."
@@ -133,25 +136,25 @@ module PrintReleaf
       raise ResponseError, message
     end
 
-    def handle_network_error(e, retry_count = 0)
+    def handle_network_error(e, retry_count=0)
       message = "Unexpected error communicating when trying to connect to PrintReleaf."
       message += " Request was retried #{retry_count} times." if retry_count > 0
       message += " (#{e.class.name})"
       raise NetworkError, message
     end
 
-    def handle_restclient_error(e, retry_count = 0)
+    def handle_restclient_error(e, retry_count=0)
       message = "Something went wrong with the request. Please try again."
       message += " Request was retried #{retry_count} times." if retry_count > 0
       message += " (#{e.class.name})"
       raise RequestError, message
     end
 
-    def should_retry?(e, retry_count = 0)
+    def should_retry?(e, retry_count=0)
       NETWORK_EXCEPTIONS.include?(e.class) && retry_count < MAX_RETRY_COUNT
     end
 
-    def retry_delay(retry_count = 0)
+    def retry_delay(retry_count=0)
       RETRY_DELAY_BASE ** retry_count
     end
   end
