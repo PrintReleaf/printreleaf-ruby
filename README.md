@@ -1,4 +1,6 @@
-# PrintReleaf
+# PrintReleaf Ruby API &nbsp; [![Build Status](https://travis-ci.org/PrintReleaf/printreleaf-ruby.svg)](https://travis-ci.org/PrintReleaf/printreleaf-ruby) [![Code Climate](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/gpa.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby) [![Test Coverage](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/coverage.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/coverage) [![Issue Count](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/issue_count.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby)
+
+Ruby toolkit for the [PrintReleaf API](https://printreleaf.com/docs/api).
 
 ## Installation
 
@@ -28,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/printreleaf/printreleaf-sdk-ruby.
+Bug reports and pull requests are welcome on GitHub at https://github.com/printreleaf/printreleaf-ruby.
 
 
 ## License

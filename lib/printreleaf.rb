@@ -1,5 +1,31 @@
+# stdlib
+require "date"
+require "forwardable"
+require "json"
+
+# dependencies
+require "hashie"
+require "restclient"
+
+# libs
 require "printreleaf/version"
+require "printreleaf/error"
+require "printreleaf/util"
+require "printreleaf/transforms"
+require "printreleaf/api"
+require "printreleaf/resource"
+require "printreleaf/relation"
+require "printreleaf/actions"
+require "printreleaf/project"
+require "printreleaf/account"
+require "printreleaf/certificate"
+require "printreleaf/invitation"
+require "printreleaf/server"
+require "printreleaf/source"
+require "printreleaf/user"
+require "printreleaf/volume_period"
 
 module PrintReleaf
-  # Your code goes here...
+  extend API
 end
+
