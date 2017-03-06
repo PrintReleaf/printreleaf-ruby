@@ -8,6 +8,7 @@ module PrintReleaf
     action :update
     action :activate
     action :deactivate
+    action :delete
 
     property :id
     property :name

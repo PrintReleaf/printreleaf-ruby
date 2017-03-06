@@ -8,6 +8,7 @@ describe PrintReleaf::Account do
   include_examples "Actions::Update"
   include_examples "Actions::Activate"
   include_examples "Actions::Deactivate"
+  include_examples "Actions::Delete"
 end
 
 describe PrintReleaf::Account, ".uri" do

@@ -61,6 +61,24 @@ describe PrintReleaf::Resource, "#reset" do
   end
 end
 
+describe PrintReleaf::Resource, "#find" do
+  it "raises DoesNotImplement" do
+    resource = PrintReleaf::Resource.new
+    expect {
+      resource.find("pants")
+    }.to raise_error PrintReleaf::DoesNotImplement
+  end
+end
+
+describe PrintReleaf::Resource, "#delete" do
+  it "raises DoesNotImplement" do
+    resource = PrintReleaf::Resource.new
+    expect {
+      resource.delete
+    }.to raise_error PrintReleaf::DoesNotImplement
+  end
+end
+
 describe PrintReleaf::Resource, "#deleted?" do
   it "returns true when it is deleted" do
     resource = PrintReleaf::Resource.new(deleted: true)
