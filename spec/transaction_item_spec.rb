@@ -23,3 +23,17 @@ describe PrintReleaf::TransactionItem, "properties" do
   end
 end
 
+describe PrintReleaf::TransactionItem, "#paper_type" do
+  it "returns the item's paper_type when it has one" do
+    paper_type = double
+    allow(PrintReleaf::Paper::Type).to receive(:find).with("123").and_return(paper_type)
+    item = PrintReleaf::TransactionItem.new(paper_type_id: "123")
+    expect(item.paper_type).to eq paper_type
+  end
+
+  it "returns nil when it doesn't have a paper_type" do
+    item = PrintReleaf::TransactionItem.new
+    expect(item.paper_type).to eq nil
+  end
+end
+
