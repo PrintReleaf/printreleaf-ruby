@@ -65,6 +65,10 @@ module PrintReleaf
       !!deleted
     end
 
+    def to_s
+      "#<#{self.class.name}>"
+    end
+
     def inspect
       "".tap do |str|
         str << "#<#{self.class} "
