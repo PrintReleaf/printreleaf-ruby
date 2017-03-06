@@ -68,6 +68,10 @@ module PrintReleaf
       @certificates ||= Relation.new(self, Certificate)
     end
 
+    def deposits
+      @deposits ||= Relation.new(self, Deposit)
+    end
+
     def invitations
       @invitations ||= Relation.new(self, Invitation)
     end

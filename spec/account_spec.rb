@@ -143,6 +143,15 @@ describe PrintReleaf::Account, "#certificates" do
   end
 end
 
+describe PrintReleaf::Account, "#deposits" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Deposit).and_return(relation)
+    expect(account.deposits).to eq relation
+  end
+end
+
 describe PrintReleaf::Account, "#invitations" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
