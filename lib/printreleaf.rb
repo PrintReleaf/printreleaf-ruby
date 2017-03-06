@@ -18,6 +18,7 @@ require "printreleaf/relation"
 require "printreleaf/actions"
 
 require "printreleaf/forestry/project"
+require "printreleaf/paper/type"
 
 require "printreleaf/account"
 require "printreleaf/certificate"
