@@ -37,9 +37,6 @@ module PrintReleaf
         end
       end
     end
-
-    class Config < Hashie::Mash
-    end
   end
 end
 
