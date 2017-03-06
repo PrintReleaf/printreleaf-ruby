@@ -29,13 +29,8 @@ module PrintReleaf
     end
 
     def server
-      @server ||= begin
-        if server_id.nil?
-          nil
-        else
-          Server.find(server_id)
-        end
-      end
+      return nil if server_id.nil?
+      @server ||= Server.find(server_id)
     end
   end
 end

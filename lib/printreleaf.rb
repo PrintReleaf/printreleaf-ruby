@@ -22,6 +22,7 @@ require "printreleaf/paper/type"
 
 require "printreleaf/account"
 require "printreleaf/certificate"
+require "printreleaf/deposit"
 require "printreleaf/invitation"
 require "printreleaf/server"
 require "printreleaf/source"
