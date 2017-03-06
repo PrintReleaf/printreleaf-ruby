@@ -26,6 +26,8 @@ require "printreleaf/deposit"
 require "printreleaf/invitation"
 require "printreleaf/server"
 require "printreleaf/source"
+require "printreleaf/transaction_item"
+require "printreleaf/transaction"
 require "printreleaf/user"
 require "printreleaf/volume_period"
 

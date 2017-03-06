@@ -84,6 +84,10 @@ module PrintReleaf
       @sources ||= Relation.new(self, Source)
     end
 
+    def transactions
+      @transactions ||= Relation.new(self, Transaction)
+    end
+
     def users
       @users ||= Relation.new(self, User)
     end

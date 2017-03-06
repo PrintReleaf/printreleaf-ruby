@@ -179,6 +179,15 @@ describe PrintReleaf::Account, "#sources" do
   end
 end
 
+describe PrintReleaf::Account, "#transactions" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Transaction).and_return(relation)
+    expect(account.transactions).to eq relation
+  end
+end
+
 describe PrintReleaf::Account, "#users" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
