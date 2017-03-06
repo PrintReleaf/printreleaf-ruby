@@ -65,3 +65,24 @@ describe PrintReleaf::Certificate, "#account" do
   end
 end
 
+describe PrintReleaf::Certificate, "#project" do
+  it "returns the certificate's project when it is included" do
+    certificate = PrintReleaf::Certificate.new({
+      project: {
+        "id": "123",
+        "name": "Madagascar"
+      }
+    })
+    expect(certificate.project).to be_a PrintReleaf::Forestry::Project
+  end
+
+  it "find and returns the certificate's project when it is not included" do
+    project = double
+    allow(PrintReleaf::Forestry::Project).to receive(:find).with("123").and_return(project)
+    certificate = PrintReleaf::Certificate.new({
+      project_id: "123"
+    })
+    expect(certificate.project).to eq project
+  end
+end
+
