@@ -25,6 +25,17 @@ describe PrintReleaf::Actions::Find, ".find" do
   end
 end
 
+describe PrintReleaf::Actions::Find, "#reload" do
+  it "refreshes itself with data from the server" do
+    json_data = double
+    stale_widget = Widget.new(id: 123)
+    updated_widget = double
+    expect(PrintReleaf).to receive(:get).with("/widgets/123").and_return(json_data)
+    expect(stale_widget).to receive(:reset).with(json_data).and_return(updated_widget)
+    expect(stale_widget.reload).to eq updated_widget
+  end
+end
+
 describe PrintReleaf::Actions::List, ".list" do
   it "returns an array of instances of the resource" do
     json_data1, json_data2 = double, double
