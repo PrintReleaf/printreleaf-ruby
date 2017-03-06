@@ -7,6 +7,7 @@ module PrintReleaf
       end
 
       def self.extended(base)
+        base.extend(ClassMethods)
         base.extend(InstanceMethods)
       end
 
