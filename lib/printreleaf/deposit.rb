@@ -10,11 +10,11 @@ module PrintReleaf
     property :id
     property :account_id
     property :source_id
-    property :date
-    property :pages
-    property :width
-    property :height
-    property :density
+    property :date, transform_with: Transforms::Date
+    property :pages, transform_with: Transforms::Integer
+    property :width, transform_with: Transforms::Float
+    property :height, transform_with: Transforms::Float
+    property :density, transform_with: Transforms::Float
     property :paper_type_id
 
     def account

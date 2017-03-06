@@ -36,7 +36,7 @@ describe PrintReleaf::Deposit, "properties" do
     expect(deposit.id).to eq "a86d591c-3c29-4bef-82c3-7a007fb6b19c"
     expect(deposit.account_id).to eq "971d10ac-a912-42c0-aa41-f55adc7b6755"
     expect(deposit.source_id).to eq "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
-    expect(deposit.date).to eq "2016-07-05T12:29:12Z"
+    expect(deposit.date.to_date.to_s).to eq "2016-07-05"
     expect(deposit.pages).to eq 20000
     expect(deposit.width).to eq 0.2127
     expect(deposit.height).to eq 0.2762
