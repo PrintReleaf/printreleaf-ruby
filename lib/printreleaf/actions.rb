@@ -67,7 +67,11 @@ module PrintReleaf
 
     module Update
       def save
-        response = PrintReleaf.patch(self.uri, changes)
+        if self.id.nil?
+          response = PrintReleaf.post(self.uri, self.to_hash)
+        else
+          response = PrintReleaf.patch(self.uri, changes)
+        end
         reset(response)
         return true
       end
