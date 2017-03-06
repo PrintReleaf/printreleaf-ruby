@@ -1,18 +1,18 @@
 require 'spec_helper'
 
-describe PrintReleaf::Project do
+describe PrintReleaf::Forestry::Project do
   it_behaves_like "Resource"
   include_examples "Actions::Find"
   include_examples "Actions::List"
 end
 
-describe PrintReleaf::Project, ".uri" do
+describe PrintReleaf::Forestry::Project, ".uri" do
   it "returns the base resource uri" do
-    expect(PrintReleaf::Project.uri).to eq "/projects"
+    expect(PrintReleaf::Forestry::Project.uri).to eq "/forestry/projects"
   end
 end
 
-describe PrintReleaf::Project, "properties" do
+describe PrintReleaf::Forestry::Project, "properties" do
   let(:json) do
     JSON.parse <<-JSON
       {
@@ -35,7 +35,7 @@ describe PrintReleaf::Project, "properties" do
   end
 
   it "gives access to JSON properties" do
-    project = PrintReleaf::Project.new(json)
+    project = PrintReleaf::Forestry::Project.new(json)
     expect(project.id).to eq "5d3b468f-c0a3-4e7c-bed4-2dcce9d3f0f9"
     expect(project.name).to eq "Madagascar"
     expect(project.status).to eq "active"
@@ -53,26 +53,26 @@ describe PrintReleaf::Project, "properties" do
   end
 end
 
-describe PrintReleaf::Project, "#active?" do
+describe PrintReleaf::Forestry::Project, "#active?" do
   it "returns true when its status is 'active'" do
-    project = PrintReleaf::Project.new(status: 'active')
+    project = PrintReleaf::Forestry::Project.new(status: 'active')
     expect(project.active?).to eq true
   end
 
   it "returns false when its status is not 'active'" do
-    project = PrintReleaf::Project.new(status: 'not active')
+    project = PrintReleaf::Forestry::Project.new(status: 'not active')
     expect(project.active?).to eq false
   end
 end
 
-describe PrintReleaf::Project, "#inactive?" do
+describe PrintReleaf::Forestry::Project, "#inactive?" do
   it "returns true when its status is 'inactive'" do
-    project = PrintReleaf::Project.new(status: 'inactive')
+    project = PrintReleaf::Forestry::Project.new(status: 'inactive')
     expect(project.inactive?).to eq true
   end
 
   it "returns false when its status is not 'inactive'" do
-    project = PrintReleaf::Project.new(status: 'not inactive')
+    project = PrintReleaf::Forestry::Project.new(status: 'not inactive')
     expect(project.inactive?).to eq false
   end
 end

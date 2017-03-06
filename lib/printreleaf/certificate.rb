@@ -13,7 +13,7 @@ module PrintReleaf
     property :trees, transform_with: Transforms::Float
     property :project_id
     property :project
-    coerce_key :project, Project
+    coerce_key :project, Forestry::Project
 
     def account
       @account ||= Account.find(account_id)

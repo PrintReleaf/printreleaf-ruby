@@ -52,7 +52,7 @@ describe PrintReleaf::Certificate, "properties" do
     expect(certificate.pages).to eq 2469134
     expect(certificate.trees).to eq 296.31
     expect(certificate.project_id).to eq "5d3b468f-c0a3-4e7c-bed4-2dcce9d3f0f9"
-    expect(certificate.project).to be_a PrintReleaf::Project
+    expect(certificate.project).to be_a PrintReleaf::Forestry::Project
   end
 end
 

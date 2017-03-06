@@ -16,7 +16,9 @@ require "printreleaf/api"
 require "printreleaf/resource"
 require "printreleaf/relation"
 require "printreleaf/actions"
-require "printreleaf/project"
+
+require "printreleaf/forestry/project"
+
 require "printreleaf/account"
 require "printreleaf/certificate"
 require "printreleaf/invitation"
