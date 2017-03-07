@@ -12,6 +12,7 @@ class Widget < PrintReleaf::Resource
   property :id
   property :size
   property :quantity
+  property :color
 end
 
 describe PrintReleaf::Actions::Find, ".find" do
@@ -21,6 +22,17 @@ describe PrintReleaf::Actions::Find, ".find" do
     expect(PrintReleaf).to receive(:get).with("/widgets/123").and_return(json_data)
     expect(Widget).to receive(:new).with(json_data).and_return(widget)
     expect(Widget.find(123)).to eq widget
+  end
+end
+
+describe PrintReleaf::Actions::Find, "#reload" do
+  it "refreshes itself with data from the server" do
+    json_data = double
+    stale_widget = Widget.new(id: 123)
+    updated_widget = double
+    expect(PrintReleaf).to receive(:get).with("/widgets/123").and_return(json_data)
+    expect(stale_widget).to receive(:reset).with(json_data).and_return(updated_widget)
+    expect(stale_widget.reload).to eq updated_widget
   end
 end
 
@@ -59,14 +71,29 @@ describe PrintReleaf::Actions::Create, ".create" do
 end
 
 describe PrintReleaf::Actions::Update, "#save" do
-  it "performs a patch with the resource's changed data, updates itself, and returns true" do
-    response = double
-    widget = Widget.new(id: 123, size: "Medium", quantity: 5)
-    widget.size = "Large"
-    expect(PrintReleaf).to receive(:patch).with("/widgets/123", {size: "Large"}).and_return(response)
-    expect(widget).to receive(:reset).with(response)
-    result = widget.save
-    expect(result).to eq true
+  context "when the resource has an ID" do
+    it "performs a patch with the resource's changed data, updates itself, and returns true" do
+      response = double
+      widget = Widget.new(id: 123, size: "Medium", quantity: 5)
+      widget.size = "Large"
+      expect(PrintReleaf).to receive(:patch).with("/widgets/123", {size: "Large"}).and_return(response)
+      expect(widget).to receive(:reset).with(response)
+      result = widget.save
+      expect(result).to eq true
+    end
+  end
+
+  context "when the resource does not have an ID" do
+    it "performs a post with the resource's changed data, updates itself, and returns true" do
+      response = double
+      widget = Widget.new(size: "Medium", quantity: 5)
+      widget.size = "Large"
+      widget.color = "Blue"
+      expect(PrintReleaf).to receive(:post).with("/widgets", {"size" => "Large", "quantity" => 5, "color" => "Blue"}).and_return(response)
+      expect(widget).to receive(:reset).with(response)
+      result = widget.save
+      expect(result).to eq true
+    end
   end
 end
 

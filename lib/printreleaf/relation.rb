@@ -58,6 +58,10 @@ module PrintReleaf
       related.length
     end
 
+    def to_s
+      "#<#{self.class.name}(#{resource_class}>"
+    end
+
     def inspect
       "#<#{self.class}(#{resource_class}) owner=#{owner.compact_inspect} path=#{path} actions=#{actions}>"
     end

@@ -8,6 +8,7 @@ describe PrintReleaf::Account do
   include_examples "Actions::Update"
   include_examples "Actions::Activate"
   include_examples "Actions::Deactivate"
+  include_examples "Actions::Delete"
 end
 
 describe PrintReleaf::Account, ".uri" do
@@ -142,6 +143,15 @@ describe PrintReleaf::Account, "#certificates" do
   end
 end
 
+describe PrintReleaf::Account, "#deposits" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Deposit).and_return(relation)
+    expect(account.deposits).to eq relation
+  end
+end
+
 describe PrintReleaf::Account, "#invitations" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
@@ -166,6 +176,15 @@ describe PrintReleaf::Account, "#sources" do
     relation = double
     allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Source).and_return(relation)
     expect(account.sources).to eq relation
+  end
+end
+
+describe PrintReleaf::Account, "#transactions" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Transaction).and_return(relation)
+    expect(account.transactions).to eq relation
   end
 end
 

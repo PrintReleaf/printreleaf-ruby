@@ -52,7 +52,7 @@ describe PrintReleaf::Certificate, "properties" do
     expect(certificate.pages).to eq 2469134
     expect(certificate.trees).to eq 296.31
     expect(certificate.project_id).to eq "5d3b468f-c0a3-4e7c-bed4-2dcce9d3f0f9"
-    expect(certificate.project).to be_a PrintReleaf::Project
+    expect(certificate.project).to be_a PrintReleaf::Forestry::Project
   end
 end
 
@@ -62,6 +62,27 @@ describe PrintReleaf::Certificate, "#account" do
     allow(PrintReleaf::Account).to receive(:find).with("123").and_return(account)
     certificate = PrintReleaf::Certificate.new(account_id: "123")
     expect(certificate.account).to eq account
+  end
+end
+
+describe PrintReleaf::Certificate, "#project" do
+  it "returns the certificate's project when it is included" do
+    certificate = PrintReleaf::Certificate.new({
+      project: {
+        "id": "123",
+        "name": "Madagascar"
+      }
+    })
+    expect(certificate.project).to be_a PrintReleaf::Forestry::Project
+  end
+
+  it "find and returns the certificate's project when it is not included" do
+    project = double
+    allow(PrintReleaf::Forestry::Project).to receive(:find).with("123").and_return(project)
+    certificate = PrintReleaf::Certificate.new({
+      project_id: "123"
+    })
+    expect(certificate.project).to eq project
   end
 end
 

@@ -2,19 +2,35 @@ module PrintReleaf
   module Actions
     module Find
       def self.included(base)
-        base.extend(self)
+        base.extend(ClassMethods)
+        base.include(InstanceMethods)
       end
 
-      def find(id)
-        uri = Util.join_uri(self.uri, id)
-        response = PrintReleaf.get(uri)
-        self.new(response)
+      def self.extended(base)
+        base.extend(ClassMethods)
+        base.extend(InstanceMethods)
+      end
+
+      module ClassMethods
+        def find(id)
+          uri = Util.join_uri(self.uri, id)
+          response = PrintReleaf.get(uri)
+          self.new(response)
+        end
+      end
+
+      module InstanceMethods
+        def reload
+          response = PrintReleaf.get(self.uri)
+          self.reset(response)
+        end
       end
     end
 
     module List
       def self.included(base)
         base.extend(ClassMethods)
+        base.include(InstanceMethods)
       end
 
       def self.extended(base)
@@ -67,7 +83,11 @@ module PrintReleaf
 
     module Update
       def save
-        response = PrintReleaf.patch(self.uri, changes)
+        if self.id.nil?
+          response = PrintReleaf.post(self.uri, self.to_hash)
+        else
+          response = PrintReleaf.patch(self.uri, changes)
+        end
         reset(response)
         return true
       end

@@ -32,7 +32,8 @@ describe PrintReleaf::Source, "properties" do
         "activated_at": "2015-10-28T07:37:13Z",
         "deactivated_at": null,
         "health_check": "ok",
-        "health_check_updated_at": "2016-10-28T07:37:13Z"
+        "health_check_checked_at": "2016-10-28T07:37:13Z",
+        "health_check_changed_at": "2016-10-28T09:37:13Z"
       }
     JSON
   end
@@ -50,7 +51,8 @@ describe PrintReleaf::Source, "properties" do
     expect(source.activated_at).to eq DateTime.parse("2015-10-28T07:37:13Z")
     expect(source.deactivated_at).to eq nil
     expect(source.health_check).to eq "ok"
-    expect(source.health_check_updated_at).to eq DateTime.parse("2016-10-28T07:37:13Z")
+    expect(source.health_check_checked_at).to eq DateTime.parse("2016-10-28T07:37:13Z")
+    expect(source.health_check_changed_at).to eq DateTime.parse("2016-10-28T09:37:13Z")
   end
 end
 

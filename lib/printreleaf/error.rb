@@ -28,5 +28,8 @@ module PrintReleaf
 
   class ResponseError < Error
   end
+
+  class DoesNotImplement < Error
+  end
 end
 

@@ -8,6 +8,7 @@ module PrintReleaf
     action :update
     action :activate
     action :deactivate
+    action :delete
 
     property :id
     property :name
@@ -50,13 +51,8 @@ module PrintReleaf
     end
 
     def parent
-      @parent ||= begin
-        if parent_id.nil?
-          nil
-        else
-          Account.find(parent_id)
-        end
-      end
+      return nil if parent_id.nil?
+      @parent ||= Account.find(parent_id)
     end
 
     # Alias
@@ -72,6 +68,10 @@ module PrintReleaf
       @certificates ||= Relation.new(self, Certificate)
     end
 
+    def deposits
+      @deposits ||= Relation.new(self, Deposit)
+    end
+
     def invitations
       @invitations ||= Relation.new(self, Invitation)
     end
@@ -82,6 +82,10 @@ module PrintReleaf
 
     def sources
       @sources ||= Relation.new(self, Source)
+    end
+
+    def transactions
+      @transactions ||= Relation.new(self, Transaction)
     end
 
     def users

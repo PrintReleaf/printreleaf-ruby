@@ -43,8 +43,12 @@ module PrintReleaf
       Util.join_uri(scope, self.class.uri, self.id)
     end
 
-    def find
-      raise "Does not implement"
+    def find(*args)
+      raise DoesNotImplement, "Resource does not implement `find`"
+    end
+
+    def delete
+      raise DoesNotImplement, "Resource does not implement `delete`"
     end
 
     def reset(hash)
@@ -63,6 +67,10 @@ module PrintReleaf
 
     def deleted?
       !!deleted
+    end
+
+    def to_s
+      "#<#{self.class.name}>"
     end
 
     def inspect
