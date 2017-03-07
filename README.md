@@ -32,6 +32,7 @@ PrintReleaf.api_key  = "<your PrintReleaf API key>"
 
 `config/initializers/printreleaf.rb` is a good place for this if you are using Rails.
 
+
 # Usage
 
 ## Accounts
@@ -509,6 +510,48 @@ paper_type = PrintReleaf::Paper::Type.create(
 paper_type.delete #=> true
 ```
 
+## Exceptions
+
+PrintReleaf will raise exceptions for most failure scenarios, including invalid parameters, authentication errors, and network errors. Most exceptions will inherit from `PrintReleaf::Error`, making it easy to gracefully handle all possible API exceptions.
+
+```ruby
+begin
+  # Use PrintReleaf to make requests...
+rescue PrintReleaf::RateLimitExceeded => e
+  # Too many requests made to the API too quickly
+rescue PrintReleaf::BadRequest => e
+  # Invalid parameters were supplied to PrintReleaf's API
+rescue PrintReleaf::Unauthorized => e
+  # Missing or invalid API key
+rescue PrintReleaf::Forbidden => e
+  # The requested action is not permitted
+rescue PrintReleaf::NetworkError => e
+  # Network communication with PrintReleaf failed
+rescue PrintReleaf::Error => e
+  # Catch all generic PrintReleaf errors
+rescue => e
+  # Something else happened, completely unrelated to PrintReleaf
+end
+```
+
+
+## Advanced Options
+
+#### Logging
+
+Be default, PrintReleaf does not perform any logging. You may provide a logger for PrintReleaf to write to:
+
+```ruby
+require 'logger'
+logger = Logger.new(STDOUT)
+PrintReleaf.logger = logger
+```
+
+If you are using Rails, you can use the Rails logger:
+
+```ruby
+PrintReleaf.logger = Rails.logger
+```
 
 ## Contributing
 
