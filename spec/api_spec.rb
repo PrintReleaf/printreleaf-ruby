@@ -139,41 +139,76 @@ describe PrintReleaf::API, "#request" do
     client.api_key  = "my-api-key"
     client.endpoint = "api.example.com/v1/"
     client.protocol = "pants"
+    client.user_agent = "PantsClient"
   end
 
   context "when it is a GET request" do
     it "performs a get with the params" do
-      expect(RestClient).to receive(:get).
-                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {params: {page: 5}, accept: :json}).
-                            and_return(double(body: "{}"))
+      params = {
+        method: :get,
+        url: 'pants://api.example.com/v1/path/to/resource/123',
+        headers: {
+          accept: :json,
+          :Authorization => 'Bearer my-api-key',
+          params: { page: 5 },
+          user_agent: "PantsClient"
+        }
+      }
+      expect(RestClient::Request).to receive(:execute).with(params).and_return(double(body: "{}"))
       client.request(:get, "/path/to/resource/123", page: 5)
     end
   end
 
   context "when it is a POST request" do
     it "performs a post with the params" do
-      expect(RestClient).to receive(:post).
-                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {page: 5}.to_json, {accept: :json, content_type: :json}).
-                            and_return(double(body: "{}"))
+      params = {
+        method: :post,
+        url: 'pants://api.example.com/v1/path/to/resource/123',
+        payload: {page: 5}.to_json,
+        headers: {
+          accept: :json,
+          content_type: :json,
+          :Authorization => 'Bearer my-api-key',
+          user_agent: "PantsClient"
+        }
+      }
+      expect(RestClient::Request).to receive(:execute).with(params).and_return(double(body: "{}"))
       client.request(:post, "/path/to/resource/123", {page: 5})
     end
   end
 
   context "when it is a PATCH request" do
     it "performs a patch with the params" do
-      expect(RestClient).to receive(:patch).
-                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {page: 5}.to_json, {accept: :json, content_type: :json}).
-                            and_return(double(body: "{}"))
+      params = {
+        method: :patch,
+        url: 'pants://api.example.com/v1/path/to/resource/123',
+        payload: {page: 5}.to_json,
+        headers: {
+          accept: :json,
+          content_type: :json,
+          :Authorization => 'Bearer my-api-key',
+          user_agent: "PantsClient"
+        }
+      }
+      expect(RestClient::Request).to receive(:execute).with(params).and_return(double(body: "{}"))
       client.request(:patch, "/path/to/resource/123", {page: 5})
     end
   end
 
   context "when it is a DELETE request" do
     it "performs a delete on the uri" do
-      expect(RestClient).to receive(:delete).
-                            with("pants://my-api-key:@api.example.com/v1/path/to/resource/123").
-                            and_return(double(body: "{}"))
-      client.request(:delete, "/path/to/resource/123")
+      params = {
+        method: :delete,
+        url: 'pants://api.example.com/v1/path/to/resource/123',
+        headers: {
+          accept: :json,
+          :Authorization => 'Bearer my-api-key',
+          params: { page: 5 },
+          user_agent: "PantsClient"
+        }
+      }
+      expect(RestClient::Request).to receive(:execute).with(params).and_return(double(body: "{}"))
+      client.request(:delete, "/path/to/resource/123", {page: 5})
     end
   end
 
@@ -181,18 +216,26 @@ describe PrintReleaf::API, "#request" do
     let(:raw_json)    { double(:raw_json) }
     let(:response)    { double(:response, body: raw_json) }
     let(:parsed_json) { double(:parsed_json).as_null_object }
+    let(:request_params) do
+      {
+        method: :get,
+        url: 'pants://api.example.com/v1/path/to/resource/123',
+        headers: {
+          accept: :json,
+          :Authorization => 'Bearer my-api-key',
+          params: { page: 5 },
+          user_agent: "PantsClient"
+        }
+      }
+    end
 
     before do
-      allow(RestClient).to receive(:get).
-        with("pants://my-api-key:@api.example.com/v1/path/to/resource/123", {params: {page: 5}, accept: :json}).
-        and_return(response)
+      allow(RestClient::Request).to receive(:execute).with(request_params).and_return(response)
     end
 
     context "when it can be parsed" do
       before do
-        allow(JSON).to receive(:parse).
-          with(raw_json).
-          and_return(parsed_json)
+        allow(JSON).to receive(:parse).with(raw_json).and_return(parsed_json)
       end
 
       it "returns the parsed JSON" do
@@ -203,9 +246,7 @@ describe PrintReleaf::API, "#request" do
 
     context "when it cannot be parsed" do
       before do
-        allow(JSON).to receive(:parse).
-          with(raw_json).
-          and_raise(JSON::ParserError)
+        allow(JSON).to receive(:parse).with(raw_json).and_raise(JSON::ParserError)
       end
 
       it "raises ResponseError" do
@@ -220,34 +261,34 @@ describe PrintReleaf::API, "#request" do
     context "when it is a known http status code" do
       it "raises an error with the appropriate message" do
         response = double(:response, code: 400, body: '{"code":400,"error":"Invalid or missing request parameters."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::BadRequest, "Invalid or missing request parameters. (code=400)"
 
         response = double(:response, code: 401, body: '{"code":401,"error":"Invalid API key."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Unauthorized, "Invalid API key. (code=401)"
 
         response = double(:response, code: 403, body: '{"code":403,"error":"API keys were provided but the requested action is not authorized."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::Forbidden, "API keys were provided but the requested action is not authorized. (code=403)"
 
         response = double(:response, code: 404, body: '{"code":404,"error":"Not Found."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::NotFound, "Not Found. (code=404)"
 
         response = double(:response, code: 429, body: '{"code":429,"error":"Rate limit exceeded."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::RateLimitExceeded, "Rate limit exceeded. (code=429)"
 
         response = double(:response, code: 500, body: '{"code":500,"error":"Something went wrong. Please try again."}')
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse.new(response))
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse.new(response))
         expect { client.request(:get, "/path/to/resource/123") }.to raise_error PrintReleaf::ServerError, "Something went wrong. Please try again. (code=500)"
       end
     end
 
     context "when it is an unknown http status code" do
       it "raises RequestError with a generic message" do
-        allow(RestClient).to receive(:get).and_raise(RestClient::ExceptionWithResponse)
+        allow(RestClient::Request).to receive(:execute).and_raise(RestClient::ExceptionWithResponse)
         expect {
           client.request(:get, "/path/to/resource/123")
         }.to raise_error PrintReleaf::RequestError, "Something went wrong with the request. Please try again. (RestClient::ExceptionWithResponse)"
@@ -261,14 +302,14 @@ describe PrintReleaf::API, "#request" do
       end
 
       it "raises NetworkError with a network error message" do
-        allow(RestClient).to receive(:get).and_raise(SocketError)
+        allow(RestClient::Request).to receive(:execute).and_raise(SocketError)
         expect {
           client.request(:get, "/path/to/resource/123")
         }.to raise_error PrintReleaf::NetworkError, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (SocketError)"
       end
 
       it "raises NetworkError with a network error message" do
-        allow(RestClient).to receive(:get).and_raise(Errno::ECONNREFUSED)
+        allow(RestClient::Request).to receive(:execute).and_raise(Errno::ECONNREFUSED)
         expect {
           client.request(:get, "/path/to/resource/123")
         }.to raise_error PrintReleaf::NetworkError, "Unexpected error communicating when trying to connect to PrintReleaf. Request was retried 3 times. (Errno::ECONNREFUSED)"
@@ -277,7 +318,7 @@ describe PrintReleaf::API, "#request" do
 
     context "when an unknown exception is raised" do
       it "does not rescue it" do
-        allow(RestClient).to receive(:get).and_raise(StandardError)
+        allow(RestClient::Request).to receive(:execute).and_raise(StandardError)
         expect {
           client.request(:get, "/path/to/resource/123")
         }.to raise_error StandardError

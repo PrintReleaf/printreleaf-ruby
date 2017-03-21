@@ -4,6 +4,7 @@ module PrintReleaf
 
     ENDPOINT = "api.printreleaf.com/v1/"
     PROTOCOL = "https"
+    USER_AGENT = "PrintReleaf Ruby/#{PrintReleaf::VERSION}"
     MAX_RETRY_COUNT = 2
     RETRY_DELAY_BASE = 1.5 # Base for exponential delay
 
@@ -27,6 +28,7 @@ module PrintReleaf
     attr_writer :api_key
     attr_writer :endpoint
     attr_writer :protocol
+    attr_writer :user_agent
     attr_accessor :logger
 
     def api_key
@@ -43,6 +45,10 @@ module PrintReleaf
 
     def protocol
       @protocol || PROTOCOL
+    end
+
+    def user_agent
+      @user_agent || USER_AGENT
     end
 
     def get(uri="/", params={})
@@ -64,18 +70,30 @@ module PrintReleaf
     def request(verb, uri, params={})
       perform_request do
         uri = Util.join_uri(endpoint, uri)
-        url = "#{protocol}://#{api_key}:@#{uri}"
+        url = "#{protocol}://#{uri}"
+
+        request_params = {
+          method: verb,
+          url: url,
+          headers: {
+            accept: :json,
+            :Authorization => "Bearer #{api_key}",
+            :user_agent => user_agent
+          }
+        }
+
+        if verb == :get || verb == :delete
+          request_params[:headers][:params] = params unless params.empty?
+        else
+          request_params[:payload] = params.to_json
+          request_params[:headers][:content_type] = :json
+        end
 
         unless logger.nil?
           logger.info "[PrintReleaf] #{verb.upcase} #{uri}"
         end
 
-        response = case verb
-        when :get;    RestClient.get url, params: params, accept: :json
-        when :post;   RestClient.post url, params.to_json, accept: :json, content_type: :json
-        when :patch;  RestClient.patch url, params.to_json, accept: :json, content_type: :json
-        when :delete; RestClient.delete url
-        end
+        response = RestClient::Request.execute(request_params)
 
         JSON.parse(response.body)
       end
