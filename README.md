@@ -487,7 +487,7 @@ PrintReleaf::Paper::Type.list #=> [#<PrintReleaf::Paper::Type>, #<PrintReleaf::P
 ### Retrieving a Paper Type
 
 ```ruby
-project = PrintReleaf::Paper::Type.find("a11c7abc-011e-462f-babb-3c6375fa6473") #=> #<PrintReleaf::Paper::Type>
+paper_type = PrintReleaf::Paper::Type.find("a11c7abc-011e-462f-babb-3c6375fa6473") #=> #<PrintReleaf::Paper::Type>
 paper_type.id         #=> "a11c7abc-011e-462f-babb-3c6375fa6473"
 paper_type.account_id #=> "a2c031fa-6599-4939-8bc6-8128881953c4"
 paper_type.account    #=> #<PrintReleaf::Account>
