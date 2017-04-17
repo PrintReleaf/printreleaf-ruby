@@ -539,7 +539,7 @@ end
 
 #### Logging
 
-Be default, PrintReleaf does not perform any logging. You may provide a logger for PrintReleaf to write to:
+By default, PrintReleaf does not perform any logging. You may provide a logger for PrintReleaf to write to:
 
 ```ruby
 require 'logger'
