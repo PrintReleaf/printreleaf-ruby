@@ -24,6 +24,7 @@ describe PrintReleaf::Server, "properties" do
         "type": "fmaudit",
         "url": "https://myfmauditserver.com/",
         "username": "MyFMAuditUsername",
+        "contact": "person@example.com",
         "created_at": "2014-10-28T07:37:13Z"
       }
     JSON
@@ -34,6 +35,7 @@ describe PrintReleaf::Server, "properties" do
     expect(server.id).to eq "eadabb78-b199-43cb-adbd-ab36ce5c5a10"
     expect(server.account_id).to eq "a2c031fa-6599-4939-8bc6-8128881953c4"
     expect(server.type).to eq "fmaudit"
+    expect(server.contact).to eq "person@example.com"
     expect(server.created_at).to eq DateTime.parse("2014-10-28T07:37:13Z")
     expect(server.url).to eq "https://myfmauditserver.com/"
     expect(server.username).to eq "MyFMAuditUsername"

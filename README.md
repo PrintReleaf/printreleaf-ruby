@@ -232,6 +232,7 @@ server.account    #=> #<PrintReleaf::Account>
 server.type       #=> "fmaudit"
 server.url        #=> "https://myfmauditserver.com"
 server.username   #=> "MyFMAuditUsername"
+server.contact    #=> "person@example.com"
 server.created_at #=> "2015-03-07T00:04:09Z"
 ```
 
@@ -242,7 +243,8 @@ server = PrintReleaf::Server.create(
   type:     "printfleet",
   url:      "https://myprintfleetserver.com",
   username: "MyPrintFleetUsername",
-  password: "MyPrintFleetPassword"
+  password: "MyPrintFleetPassword",
+  contact:  "person@example.com"
 ) #=> #<PrintReleaf::Server>
 ```
 

@@ -15,6 +15,7 @@ module PrintReleaf
     property :url
     property :username
     property :password
+    property :contact
 
     def account
       @account ||= Account.find(account_id)
