@@ -1,3 +1,3 @@
 module PrintReleaf
-  VERSION = "1.0.3"
+  VERSION = "1.3.0"
 end

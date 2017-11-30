@@ -20,26 +20,12 @@ describe PrintReleaf::Transaction, "properties" do
       {
         "id": "70af5540-e3ec-4db7-bc45-4fb65b74368b",
         "account_id": "971d10ac-a912-42c0-aa41-f55adc7b6755",
+        "quote_id": "83d12ee9-a187-489d-a93f-3096238f1f86",
         "project_id": "692bb68d-64aa-4a79-8a08-d373fb0d8752",
         "certificate_id": "70af5540-e3ec-4db7-bc45-4fb65b74368b",
         "date": "2015-10-22T01:52:12Z",
-        "trees": 63.048,
-        "items": [
-          {
-            "pages": 20000,
-            "width": 0.2127,
-            "height": 0.2762,
-            "density": 216.0,
-            "paper_type_id": "a11c7abc-011e-462f-babb-3c6375fa6473"
-          },
-          {
-            "pages": 400000,
-            "width": 0.2127,
-            "height": 0.2762,
-            "density": 89.0,
-            "paper_type_id": "bbd0f271-2f9e-494c-b2af-7f9354b310ad"
-          }
-        ]
+        "pages": 525377,
+        "trees": 63.048
       }
     JSON
   end
@@ -48,14 +34,12 @@ describe PrintReleaf::Transaction, "properties" do
     transaction = PrintReleaf::Transaction.new(json)
     expect(transaction.id).to eq "70af5540-e3ec-4db7-bc45-4fb65b74368b"
     expect(transaction.account_id).to eq "971d10ac-a912-42c0-aa41-f55adc7b6755"
+    expect(transaction.quote_id).to eq "83d12ee9-a187-489d-a93f-3096238f1f86"
     expect(transaction.project_id).to eq "692bb68d-64aa-4a79-8a08-d373fb0d8752"
     expect(transaction.certificate_id).to eq "70af5540-e3ec-4db7-bc45-4fb65b74368b"
     expect(transaction.date.to_date.to_s).to eq "2015-10-22"
+    expect(transaction.pages).to eq 525377
     expect(transaction.trees).to eq 63.048
-    expect(transaction.items).to be_a Array
-    expect(transaction.items.length).to eq 2
-    expect(transaction.items[0]).to be_a PrintReleaf::TransactionItem
-    expect(transaction.items[1]).to be_a PrintReleaf::TransactionItem
   end
 end
 
@@ -83,6 +67,20 @@ describe PrintReleaf::Transaction, "#certificate" do
     allow(PrintReleaf::Certificate).to receive(:find).with("123").and_return(certificate)
     transaction = PrintReleaf::Transaction.new(certificate_id: "123")
     expect(transaction.certificate).to eq certificate
+  end
+end
+
+describe PrintReleaf::Transaction, "#quote" do
+  it "returns the transaction's quote" do
+    quote = double
+    allow(PrintReleaf::Quote).to receive(:find).with("123").and_return(quote)
+    transaction = PrintReleaf::Transaction.new(quote_id: "123")
+    expect(transaction.quote).to eq quote
+  end
+
+  it "returns nil when the transaction doesn't have a quote" do
+    transaction = PrintReleaf::Transaction.new
+    expect(transaction.quote).to eq nil
   end
 end
 

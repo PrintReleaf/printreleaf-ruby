@@ -20,7 +20,7 @@ describe PrintReleaf::Deposit, "properties" do
       {
         "id": "a86d591c-3c29-4bef-82c3-7a007fb6b19c",
         "account_id": "971d10ac-a912-42c0-aa41-f55adc7b6755",
-        "source_id": "44e182ed-cd50-4fa1-af90-e77dd6d6a78c",
+        "feed_id": "44e182ed-cd50-4fa1-af90-e77dd6d6a78c",
         "date": "2016-07-05T12:29:12Z",
         "pages": 20000,
         "width": 0.2127,
@@ -35,7 +35,7 @@ describe PrintReleaf::Deposit, "properties" do
     deposit = PrintReleaf::Deposit.new(json)
     expect(deposit.id).to eq "a86d591c-3c29-4bef-82c3-7a007fb6b19c"
     expect(deposit.account_id).to eq "971d10ac-a912-42c0-aa41-f55adc7b6755"
-    expect(deposit.source_id).to eq "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
+    expect(deposit.feed_id).to eq "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
     expect(deposit.date.to_date.to_s).to eq "2016-07-05"
     expect(deposit.pages).to eq 20000
     expect(deposit.width).to eq 0.2127
@@ -54,17 +54,17 @@ describe PrintReleaf::Deposit, "#account" do
   end
 end
 
-describe PrintReleaf::Deposit, "#source" do
-  it "returns the deposit's source when it has one" do
-    source = double
-    allow(PrintReleaf::Source).to receive(:find).with("123").and_return(source)
-    deposit = PrintReleaf::Deposit.new(source_id: "123")
-    expect(deposit.source).to eq source
+describe PrintReleaf::Deposit, "#feed" do
+  it "returns the deposit's feed when it has one" do
+    feed = double
+    allow(PrintReleaf::Feed).to receive(:find).with("123").and_return(feed)
+    deposit = PrintReleaf::Deposit.new(feed_id: "123")
+    expect(deposit.feed).to eq feed
   end
 
-  it "returns nil when it doesn't have a source" do
+  it "returns nil when it doesn't have a feed" do
     deposit = PrintReleaf::Deposit.new
-    expect(deposit.source).to eq nil
+    expect(deposit.feed).to eq nil
   end
 end
 

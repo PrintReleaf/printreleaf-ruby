@@ -1,6 +1,6 @@
 module PrintReleaf
-  class Source < Resource
-    path "/sources"
+  class Feed < Resource
+    path "/feeds"
 
     action :find
     action :list
