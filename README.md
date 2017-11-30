@@ -1,4 +1,6 @@
-# PrintReleaf Ruby API &nbsp; [![Build Status](https://travis-ci.org/PrintReleaf/printreleaf-ruby.svg)](https://travis-ci.org/PrintReleaf/printreleaf-ruby) [![Code Climate](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/gpa.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby) [![Test Coverage](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/coverage.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/coverage) [![Issue Count](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/issue_count.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby)
+# PrintReleaf Ruby API
+
+[![Build Status](https://travis-ci.org/PrintReleaf/printreleaf-ruby.svg)](https://travis-ci.org/PrintReleaf/printreleaf-ruby) [![Code Climate](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/gpa.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby) [![Test Coverage](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/coverage.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/coverage) [![Issue Count](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby/badges/issue_count.svg)](https://codeclimate.com/github/PrintReleaf/printreleaf-ruby)
 
 Ruby toolkit for the [PrintReleaf API](https://printreleaf.com/docs/api).
 
