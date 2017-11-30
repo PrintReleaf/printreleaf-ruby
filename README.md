@@ -148,8 +148,8 @@ deposit = account.deposits.find("a86d591c-3c29-4bef-82c3-7a007fb6b19c") #=> #<Pr
 deposit.id            #=> "a86d591c-3c29-4bef-82c3-7a007fb6b19c"
 deposit.account_id    #=> "971d10ac-a912-42c0-aa41-f55adc7b6755"
 deposit.account       #=> #<PrintReleaf::Account>
-deposit.source_id     #=> "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
-deposit.source        #=> #<PrintReleaf::Source>
+deposit.feed_id     #=> "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
+deposit.feed        #=> #<PrintReleaf::Feed>
 deposit.date          #=> "2016-07-05T12:29:12Z"
 deposit.pages         #=> 20000
 deposit.width         #=> 0.2127
@@ -320,73 +320,73 @@ server.delete #=> true
 ```
 
 
-## Sources
+## Feeds
 
-### Listing Sources
+### Listing Feeds
 
 ```ruby
-PrintReleaf::Source.list #=> [#<PrintReleaf::Source>, #<PrintReleaf::Source>]
+PrintReleaf::Feed.list #=> [#<PrintReleaf::Feed>, #<PrintReleaf::Feed>]
 # -or-
-account.sources #=> [#<PrintReleaf::Source>, #<PrintReleaf::Source>]
+account.feeds #=> [#<PrintReleaf::Feed>, #<PrintReleaf::Feed>]
 ```
 
-### Retrieving a Source
+### Retrieving a Feed
 
 ```ruby
-source = PrintReleaf::Source.find("44e182ed-cd50-4fa1-af90-e77dd6d6a78c") #=> #<PrintReleaf::Source>
+feed = PrintReleaf::Feed.find("44e182ed-cd50-4fa1-af90-e77dd6d6a78c") #=> #<PrintReleaf::Feed>
 # -or-
-source = account.sources.find("44e182ed-cd50-4fa1-af90-e77dd6d6a78c") #=> #<PrintReleaf::Source>
+feed = account.feeds.find("44e182ed-cd50-4fa1-af90-e77dd6d6a78c") #=> #<PrintReleaf::Feed>
 
-source.id                      #=> "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
-source.account_id              #=> "971d10ac-a912-42c0-aa41-f55adc7b6755"
-source.account                 #=> #<PrintReleaf::Account>
-source.type                    #=> "fmaudit"
-source.server_id               #=> "eadabb78-b199-43cb-adbd-ab36ce5c5a10"
-source.server                  #=> #<PrintReleaf::Server>
-source.external_id             #=> "456"
-source.collection_scope        #=> "managed_only"
-source.created_at              #=> "2016-03-07T00:04:09Z"
-source.status                  #=> "active"
-source.activated_at            #=> "2016-03-07T00:04:09Z"
-source.deactivated_at          #=> nil
-source.health_check            #=> "healthy"
-source.health_check_checked_at #=> "2017-03-07T00:04:09Z"
-source.health_check_changed_at #=> "2017-03-07T00:04:09Z"
+feed.id                      #=> "44e182ed-cd50-4fa1-af90-e77dd6d6a78c"
+feed.account_id              #=> "971d10ac-a912-42c0-aa41-f55adc7b6755"
+feed.account                 #=> #<PrintReleaf::Account>
+feed.type                    #=> "fmaudit"
+feed.server_id               #=> "eadabb78-b199-43cb-adbd-ab36ce5c5a10"
+feed.server                  #=> #<PrintReleaf::Server>
+feed.external_id             #=> "456"
+feed.collection_scope        #=> "managed_only"
+feed.created_at              #=> "2016-03-07T00:04:09Z"
+feed.status                  #=> "active"
+feed.activated_at            #=> "2016-03-07T00:04:09Z"
+feed.deactivated_at          #=> nil
+feed.health_check            #=> "healthy"
+feed.health_check_checked_at #=> "2017-03-07T00:04:09Z"
+feed.health_check_changed_at #=> "2017-03-07T00:04:09Z"
 ```
 
-### Creating a Source
+### Creating a Feed
 
 ```ruby
-source = PrintReleaf::Source.create(
+feed = PrintReleaf::Feed.create(
   type: "printfleet",
   server_id: "9a6a1ced-4e71-4919-9d6d-25075834c404",
   external_id: "732ec0d3-20e3-439e-94e6-e64b40eb533a"
-) #=> #<PrintReleaf::Source>
+) #=> #<PrintReleaf::Feed>
 ```
 
-### Updating a Source
+### Updating a Feed
 
 ```ruby
-source.external_id = "abc123"
-source.save #=> true
+feed.external_id = "abc123"
+feed.save #=> true
 ```
 
-### Activating a Source
+### Activating a Feed
 
 ```ruby
-source.activate #=> true
+feed.activate #=> true
 ```
 
-### Deactivating a Source
+### Deactivating a Feed
 
 ```ruby
-source.deactivate #=> true
+feed.deactivate #=> true
 ```
 
-### Deleting a Source
+### Deleting a Feed
 
 ```ruby
-source.delete #=> true
+feed.delete #=> true
 ```
 
 
@@ -568,7 +568,7 @@ PrintReleaf will raise exceptions for most failure scenarios, including invalid 
 
 ```ruby
 begin
-  # Use PrintReleaf to make requests...
+  # Make requests...
 rescue PrintReleaf::RateLimitExceeded => e
   # Too many requests made to the API too quickly
 rescue PrintReleaf::BadRequest => e
@@ -611,5 +611,5 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/printr
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The gem is available as open feed under the terms of the [MIT License](http://openfeed.org/licenses/MIT).
 

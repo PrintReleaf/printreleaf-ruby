@@ -152,6 +152,15 @@ describe PrintReleaf::Account, "#deposits" do
   end
 end
 
+describe PrintReleaf::Account, "#feeds" do
+  it "returns a relation" do
+    account = PrintReleaf::Account.new
+    relation = double
+    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Feed).and_return(relation)
+    expect(account.feeds).to eq relation
+  end
+end
+
 describe PrintReleaf::Account, "#invitations" do
   it "returns a relation" do
     account = PrintReleaf::Account.new
@@ -167,15 +176,6 @@ describe PrintReleaf::Account, "#servers" do
     relation = double
     allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Server).and_return(relation)
     expect(account.servers).to eq relation
-  end
-end
-
-describe PrintReleaf::Account, "#sources" do
-  it "returns a relation" do
-    account = PrintReleaf::Account.new
-    relation = double
-    allow(PrintReleaf::Relation).to receive(:new).with(account, PrintReleaf::Source).and_return(relation)
-    expect(account.sources).to eq relation
   end
 end
 

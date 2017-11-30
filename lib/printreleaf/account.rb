@@ -72,16 +72,16 @@ module PrintReleaf
       @deposits ||= Relation.new(self, Deposit)
     end
 
+    def feeds
+      @feeds ||= Relation.new(self, Feed)
+    end
+
     def invitations
       @invitations ||= Relation.new(self, Invitation)
     end
 
     def servers
       @servers ||= Relation.new(self, Server)
-    end
-
-    def sources
-      @sources ||= Relation.new(self, Source)
     end
 
     def transactions
