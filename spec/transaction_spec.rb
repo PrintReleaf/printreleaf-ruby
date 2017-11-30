@@ -23,23 +23,8 @@ describe PrintReleaf::Transaction, "properties" do
         "project_id": "692bb68d-64aa-4a79-8a08-d373fb0d8752",
         "certificate_id": "70af5540-e3ec-4db7-bc45-4fb65b74368b",
         "date": "2015-10-22T01:52:12Z",
-        "trees": 63.048,
-        "items": [
-          {
-            "pages": 20000,
-            "width": 0.2127,
-            "height": 0.2762,
-            "density": 216.0,
-            "paper_type_id": "a11c7abc-011e-462f-babb-3c6375fa6473"
-          },
-          {
-            "pages": 400000,
-            "width": 0.2127,
-            "height": 0.2762,
-            "density": 89.0,
-            "paper_type_id": "bbd0f271-2f9e-494c-b2af-7f9354b310ad"
-          }
-        ]
+        "pages": 525379,
+        "trees": 63.048
       }
     JSON
   end
@@ -51,11 +36,8 @@ describe PrintReleaf::Transaction, "properties" do
     expect(transaction.project_id).to eq "692bb68d-64aa-4a79-8a08-d373fb0d8752"
     expect(transaction.certificate_id).to eq "70af5540-e3ec-4db7-bc45-4fb65b74368b"
     expect(transaction.date.to_date.to_s).to eq "2015-10-22"
+    expect(transaction.pages).to eq 525379
     expect(transaction.trees).to eq 63.048
-    expect(transaction.items).to be_a Array
-    expect(transaction.items.length).to eq 2
-    expect(transaction.items[0]).to be_a PrintReleaf::TransactionItem
-    expect(transaction.items[1]).to be_a PrintReleaf::TransactionItem
   end
 end
 

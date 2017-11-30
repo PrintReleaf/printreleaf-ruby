@@ -357,33 +357,18 @@ transaction.account        #=> #<PrintReleaf::Forestry::Project>
 transaction.certificate_id #=> "70af5540-e3ec-4db7-bc45-4fb65b74368b"
 transaction.account        #=> #<PrintReleaf::Certificate>
 transaction.date           #=> "2015-10-22T01:52:12Z"
+transaction.pages          #=> 525379
 transaction.trees          #=> 63.048
-transaction.items          #=> [#<PrintReleaf::TransactionItem>, #<PrintReleaf::TransactionItem>]
 ```
 
 ### Creating a Transaction
 
 ```ruby
+# Providing only pages:
+transaction = PrintReleaf::Transaction.create(trees: 16000) #=> #<PrintReleaf::Transaction>
+
 # Providing only trees:
 transaction = PrintReleaf::Transaction.create(trees: 2.0) #=> #<PrintReleaf::Transaction>
-
-# or providing raw paper specs:
-transaction = PrintReleaf::Transaction.create(
-  items: [
-    {
-      pages: 20000,
-      width: 0.2127,
-      height: 0.2762,
-      paper_type_id: "a11c7abc-011e-462f-babb-3c6375fa6473"
-    },
-    {
-      pages: 400000,
-      width: 0.2127,
-      height: 0.2762,
-      paper_type_id: "bbd0f271-2f9e-494c-b2af-7f9354b310ad"
-    }
-  ]
-) #=> #<PrintReleaf::Transaction>
 ```
 
 ### Deleting a Transaction
