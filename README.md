@@ -54,11 +54,11 @@ account.users_count                 #=> 2
 account.mtd_pages                   #=> 1234
 account.qtd_pages                   #=> 12345
 account.ytd_pages                   #=> 123456
-account.lifetime_pages              #=> 1234567
+account.ltd_pages                   #=> 1234567
 account.mtd_trees                   #=> 0.15
 account.qtd_trees                   #=> 1.48
 account.ytd_trees                   #=> 14.82
-account.lifetime_trees              #=> 148.1
+account.ltd_trees                   #=> 148.1
 ```
 
 ### Listing Accounts

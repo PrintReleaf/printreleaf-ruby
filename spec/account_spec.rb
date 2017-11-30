@@ -45,11 +45,11 @@ describe PrintReleaf::Account, "properties" do
         "mtd_pages": 1234,
         "qtd_pages": 12345,
         "ytd_pages": 123456,
-        "lifetime_pages": 1234567,
+        "ltd_pages": 1234567,
         "mtd_trees": 0.15,
         "qtd_trees": 1.48,
         "ytd_trees": 14.82,
-        "lifetime_trees": 148.15
+        "ltd_trees": 148.15
       }
     JSON
   end
@@ -69,11 +69,11 @@ describe PrintReleaf::Account, "properties" do
     expect(account.mtd_pages).to eq 1234
     expect(account.qtd_pages).to eq 12345
     expect(account.ytd_pages).to eq 123456
-    expect(account.lifetime_pages).to eq 1234567
+    expect(account.ltd_pages).to eq 1234567
     expect(account.mtd_trees).to eq 0.15
     expect(account.qtd_trees).to eq 1.48
     expect(account.ytd_trees).to eq 14.82
-    expect(account.lifetime_trees).to eq 148.15
+    expect(account.ltd_trees).to eq 148.15
   end
 end
 

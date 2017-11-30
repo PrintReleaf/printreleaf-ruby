@@ -23,11 +23,11 @@ module PrintReleaf
     property :mtd_pages,      transform_with: Transforms::Integer
     property :qtd_pages,      transform_with: Transforms::Integer
     property :ytd_pages,      transform_with: Transforms::Integer
-    property :lifetime_pages, transform_with: Transforms::Integer
+    property :ltd_pages,      transform_with: Transforms::Integer
     property :mtd_trees,      transform_with: Transforms::Float
     property :qtd_trees,      transform_with: Transforms::Float
     property :ytd_trees,      transform_with: Transforms::Float
-    property :lifetime_trees, transform_with: Transforms::Float
+    property :ltd_trees,      transform_with: Transforms::Float
 
     def self.mine
       response = PrintReleaf.get("/account")
