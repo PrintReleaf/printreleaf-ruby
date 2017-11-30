@@ -209,6 +209,64 @@ invitation.delete #=> true
 ```
 
 
+## Quotes
+
+### Listing Quotes
+
+```ruby
+PrintReleaf::Quote.list #=> [#<PrintReleaf::Quote>, #<PrintReleaf::Quote>]
+# -or-
+account.quotes #=> [#<PrintReleaf::Quote>, #<PrintReleaf::Quote>]
+```
+
+### Retrieving a Quote
+
+```ruby
+quote = PrintReleaf::Quote.find("83d12ee9-a187-489d-a93f-3096238f1f86") #=> #<PrintReleaf::Quote>
+# -or-
+quote = account.quotes.find("83d12ee9-a187-489d-a93f-3096238f1f86") #=> #<PrintReleaf::Quote>
+
+quote.id             #=> "83d12ee9-a187-489d-a93f-3096238f1f86"
+quote.account_id     #=> "971d10ac-a912-42c0-aa41-f55adc7b6755"
+quote.created_at     #=> "2015-10-22T01:52:12Z"
+quote.account        #=> #<PrintReleaf::Account>
+quote.transaction_id #=> "70af5540-e3ec-4db7-bc45-4fb65b74368b"
+quote.transaction    #=> #<PrintReleaf::Transaction>
+quote.trees          #=> 63.048
+quote.standard_pages #=> 525377
+quote.msrp_rate      #=> 0.0003
+quote.msrp_price     #=> 157.61
+quote.items          #=> [#<PrintReleaf::QuoteItem>, #<PrintReleaf::QuoteItem>]
+```
+
+### Creating a Quote
+
+```ruby
+quote = PrintReleaf::Quote.create(
+  items: [
+    {
+      quantity: 20000,
+      width: 0.2127,
+      height: 0.2762,
+      paper_type_id: "a11c7abc-011e-462f-babb-3c6375fa6473"
+    },
+    {
+      quantity: 400000,
+      width: 0.2127,
+      height: 0.2762,
+      paper_type_id: "bbd0f271-2f9e-494c-b2af-7f9354b310ad"
+    }
+  ]
+) #=> #<PrintReleaf::Quote>
+```
+
+### Deleting a Quote
+
+```ruby
+quote.delete #=> true
+```
+
+
 ## Servers
 
 ### Listing Servers
@@ -353,22 +411,29 @@ transaction.id             #=> "70af5540-e3ec-4db7-bc45-4fb65b74368b"
 transaction.account_id     #=> "971d10ac-a912-42c0-aa41-f55adc7b6755"
 transaction.account        #=> #<PrintReleaf::Account>
 transaction.project_id     #=> "692bb68d-64aa-4a79-8a08-d373fb0d8752"
-transaction.account        #=> #<PrintReleaf::Forestry::Project>
+transaction.project        #=> #<PrintReleaf::Forestry::Project>
 transaction.certificate_id #=> "70af5540-e3ec-4db7-bc45-4fb65b74368b"
-transaction.account        #=> #<PrintReleaf::Certificate>
+transaction.certificate    #=> #<PrintReleaf::Certificate>
+transaction.quote_id       #=> "83d12ee9-a187-489d-a93f-3096238f1f86"
+transaction.quote          #=> #<PrintReleaf::Quote>
 transaction.date           #=> "2015-10-22T01:52:12Z"
-transaction.pages          #=> 525379
+transaction.pages          #=> 525377
 transaction.trees          #=> 63.048
 ```
 
 ### Creating a Transaction
 
 ```ruby
-# Providing only pages:
+# By providing total number of pages:
 transaction = PrintReleaf::Transaction.create(trees: 16000) #=> #<PrintReleaf::Transaction>
 
-# Providing only trees:
+# Or by providing total number of trees:
 transaction = PrintReleaf::Transaction.create(trees: 2.0) #=> #<PrintReleaf::Transaction>
+
+# Or by providing a `quote_id` to convert a quote to a transaction
+transaction = PrintReleaf::Transaction.create(
+  quote_id: "83d12ee9-a187-489d-a93f-3096238f1f86"
+) #=> #<PrintReleaf::Transaction>
 ```
 
 ### Deleting a Transaction
