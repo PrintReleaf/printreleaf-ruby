@@ -34,6 +34,7 @@ describe PrintReleaf::Account, "properties" do
       {
         "id": "971d10ac-a912-42c0-aa41-f55adc7b6755",
         "name": "Customer ABC",
+        "display_name": "Customer ABC Display Name",
         "role": "customer",
         "created_at": "2014-10-13T02:55:29Z",
         "parent_id": "a2c031fa-6599-4939-8bc6-8128881953c4",
@@ -58,6 +59,7 @@ describe PrintReleaf::Account, "properties" do
     account = PrintReleaf::Account.new(json)
     expect(account.id).to eq "971d10ac-a912-42c0-aa41-f55adc7b6755"
     expect(account.name).to eq "Customer ABC"
+    expect(account.display_name).to eq "Customer ABC Display Name"
     expect(account.role).to eq "customer"
     expect(account.created_at).to eq DateTime.parse("2014-10-13T02:55:29Z")
     expect(account.parent_id).to eq "a2c031fa-6599-4939-8bc6-8128881953c4"

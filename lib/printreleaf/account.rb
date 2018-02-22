@@ -12,6 +12,7 @@ module PrintReleaf
 
     property :id
     property :name
+    property :display_name
     property :role
     property :parent_id
     property :status
