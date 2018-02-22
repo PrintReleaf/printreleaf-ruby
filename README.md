@@ -45,6 +45,7 @@ PrintReleaf.api_key  = "<your PrintReleaf API key>"
 account = PrintReleaf::Account.mine #=> #<PrintReleaf::Account>
 account.id                          #=> "a2c031fa-6599-4939-8bc6-8128881953c4"
 account.name                        #=> "My Account"
+account.display_name                #=> "My Account's Display Name"
 account.role                        #=> "customer"
 account.created_at                  #=> "2014-03-06T23:06:23+00:00"
 account.parent_id                   #=> nil
