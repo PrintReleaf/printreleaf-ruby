@@ -49,6 +49,7 @@ account.display_name                #=> "My Account's Display Name"
 account.role                        #=> "customer"
 account.created_at                  #=> "2014-03-06T23:06:23+00:00"
 account.parent_id                   #=> nil
+account.external_id                 #=> nil
 account.status                      #=> "active"
 account.activated_at                #=> "2014-03-06T23:06:23+00:00"
 account.deactivated_at              #=> nil
