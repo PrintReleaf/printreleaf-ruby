@@ -15,6 +15,7 @@ module PrintReleaf
     property :display_name
     property :role
     property :parent_id
+    property :external_id
     property :status
     property :created_at,     transform_with: Transforms::Date
     property :activated_at,   transform_with: Transforms::Date

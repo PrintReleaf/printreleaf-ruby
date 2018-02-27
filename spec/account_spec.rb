@@ -38,6 +38,7 @@ describe PrintReleaf::Account, "properties" do
         "role": "customer",
         "created_at": "2014-10-13T02:55:29Z",
         "parent_id": "a2c031fa-6599-4939-8bc6-8128881953c4",
+        "external_id": "Customer ABC External ID",
         "status": "active",
         "activated_at": "2014-10-13T02:55:29Z",
         "deactivated_at": null,
@@ -63,6 +64,7 @@ describe PrintReleaf::Account, "properties" do
     expect(account.role).to eq "customer"
     expect(account.created_at).to eq DateTime.parse("2014-10-13T02:55:29Z")
     expect(account.parent_id).to eq "a2c031fa-6599-4939-8bc6-8128881953c4"
+    expect(account.external_id).to eq "Customer ABC External ID"
     expect(account.status).to eq "active"
     expect(account.activated_at).to eq DateTime.parse("2014-10-13T02:55:29Z")
     expect(account.deactivated_at).to eq nil
