@@ -238,8 +238,8 @@ quote.transaction_id #=> "70af5540-e3ec-4db7-bc45-4fb65b74368b"
 quote.transaction    #=> #<PrintReleaf::Transaction>
 quote.trees          #=> 63.048
 quote.standard_pages #=> 525377
-quote.msrp_rate      #=> 0.0003
-quote.msrp_price     #=> 157.61
+quote.rate      #=> 0.0003
+quote.price     #=> 157.61
 quote.items          #=> [#<PrintReleaf::QuoteItem>, #<PrintReleaf::QuoteItem>]
 ```
 

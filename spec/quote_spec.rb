@@ -23,8 +23,8 @@ describe PrintReleaf::Quote, "properties" do
         "created_at": "2015-10-22T00:37:11Z",
         "trees": 63.048,
         "standard_pages": 525377,
-        "msrp_rate": 0.0003,
-        "msrp_price": 157.61,
+        "rate": 0.0003,
+        "price": 157.61,
         "transaction_id": "70af5540-e3ec-4db7-bc45-4fb65b74368b",
         "items": [
           {
@@ -53,8 +53,8 @@ describe PrintReleaf::Quote, "properties" do
     expect(quote.created_at.to_date.to_s).to eq "2015-10-22"
     expect(quote.trees).to eq 63.048
     expect(quote.standard_pages).to eq 525377
-    expect(quote.msrp_rate).to eq 0.0003
-    expect(quote.msrp_price).to eq 157.61
+    expect(quote.rate).to eq 0.0003
+    expect(quote.price).to eq 157.61
     expect(quote.transaction_id).to eq "70af5540-e3ec-4db7-bc45-4fb65b74368b"
     expect(quote.items).to be_a Array
     expect(quote.items.length).to eq 2

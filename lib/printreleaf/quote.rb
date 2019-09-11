@@ -14,8 +14,8 @@ module PrintReleaf
     property :created_at,     transform_with: Transforms::Date
     property :standard_pages, transform_with: Transforms::Integer
     property :trees,          transform_with: Transforms::Float
-    property :msrp_rate,      transform_with: Transforms::Float
-    property :msrp_price,     transform_with: Transforms::Float
+    property :rate,      transform_with: Transforms::Float
+    property :price,     transform_with: Transforms::Float
     property :items
     coerce_key :items, Array[QuoteItem]
 
